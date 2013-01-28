@@ -24,7 +24,7 @@ rm=$M
 rs=$S
 while ((1))
 do
-	if [ X"$M" = X"$rm" ] && [ X"$S" = X"$rs" ]; then
+	#if [ X"$M" = X"$rm" ] && [ X"$S" = X"$rs" ]; then
 		aplaymidi --port=20:0 /home/pi/Desktop/beer.mid&
 		case "$#" in
 		1)
@@ -115,7 +115,7 @@ do
 			#exit 1
 		;;
 		esac
-	fi	
+	#fi	
 	
 	if [ $rh -eq 24 ]; then
 		rh=0
@@ -125,5 +125,5 @@ do
 	S=`date +%S`
 	echo "$H:$M:$S"
 	echo "$rhflag $rh:$rm:$rs"
-	sleep 1
+	sleep 600
 done
