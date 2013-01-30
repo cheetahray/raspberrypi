@@ -25,7 +25,7 @@ rs=$S
 while ((1))
 do
 	#if [ X"$M" = X"$rm" ] && [ X"$S" = X"$rs" ]; then
-		aplaymidi --port=20:0 /home/pi/Desktop/beer.mid&
+		aplaymidi --port=20:0 /home/pi/alicia_keys-superwoman.mid&
 		case "$#" in
 		1)
 			timeoffset=$1
@@ -121,9 +121,10 @@ do
 		rh=0
 		rhflag=1
 	fi
-	M=`date +%M`
-	S=`date +%S`
 	echo "$H:$M:$S"
 	echo "$rhflag $rh:$rm:$rs"
 	sleep 600
+	H=`date +%H`
+	M=`date +%M`
+	S=`date +%S`
 done
