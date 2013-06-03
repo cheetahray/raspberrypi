@@ -17,8 +17,8 @@
 
 while ((1))
 do
-	read yname
+	read -n 1 yname
 	case $yname in
-	c) aplaymidi --port=20:0 /home/pi/ukCChord.mid;;
+	c) aplaymidi --port=20:0 /home/pi/ukCchord.mid;;
 	esac
 done
