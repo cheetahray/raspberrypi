@@ -19,7 +19,7 @@ while ((1))
 do
 	read -n 1 yname
 	if [ X"$yname" = X"c" ]; then
-		aplaymidi --port=20:0 /home/pi/ukCchord.mid&;;
+		aplaymidi --port=20:0 /home/pi/ukCchord.mid&
 	fi
 	esac
 done
