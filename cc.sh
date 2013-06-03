@@ -18,7 +18,7 @@
 while ((1))
 do
 	read -n 1 yname
-	ps axuw | axuw.ps
+	ps axuw >> axuw.ps
 	if [ X"$yname" = X"c" && ! grep -q "aplaymidi" axuw.ps ]; then
 		aplaymidi --port=20:0 /home/pi/ukCchord.mid&
 	fi
