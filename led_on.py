@@ -3,13 +3,14 @@
 import RPi.GPIO as GPIO
 import time
 
-GPIO.setmode(GPIO.BOARD)
 BTN_PIN = 11
-GPIO.setup(BTN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-try :
+BOUNCE_TIME = 200
+GPIO.setup(BTN_PIN, GPIO.IN,pull_up_down=GPIO.PUD_UP)
+def callback_function(channel):
+    print("Button.Click"), strftime("%Y-%m-%d %H:%M:%S", gmtime())
+try:
+    GPIO.add_event_detect(BTN_PIN, GPIO.FALLING,callback=callback_function, bouncetime=BOUNCE_TIME)
     while True:
-        if GPIO.input(BTN_PIN) == GPIO.LOW :
-            print("Button.Click")
-
+        time.sleep(10)
 except KeyboardInterrupt:
     GPIO.cleanup()
