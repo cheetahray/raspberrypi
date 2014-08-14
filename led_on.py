@@ -3,14 +3,17 @@
 import RPi.GPIO as GPIO
 import time
 
-BTN_PIN = 11
-BOUNCE_TIME = 200
-GPIO.setup(BTN_PIN, GPIO.IN,pull_up_down=GPIO.PUD_UP)
-def callback_function(channel):
-    print("Button.Click"), strftime("%Y-%m-%d %H:%M:%S", gmtime())
-try:
-    GPIO.add_event_detect(BTN_PIN, GPIO.FALLING,callback=callback_function, bouncetime=BOUNCE_TIME)
-    while True:
-        time.sleep(10)
-except KeyboardInterrupt:
-    GPIO.cleanup()
+def buzz(pitch, duration) :
+    period = 1.0 / pitch
+    delay = period / 2
+    cycles = int(duration * pitch)
+    for i in range(cycles) :
+        GPIO.output(buzzer_pin, True)
+        time.sleep(delay)
+        GPIO.output(buzzer_pin, False)
+        time.sleep(delay)
+        
+while True :
+    pitch_s = raw_input("Enter Pitch (200 to 2000): ")
+    duration_s = raw_input("Enter Duration (seconde): ")
+    buzz(float(pitch_s), float(duration_s))
