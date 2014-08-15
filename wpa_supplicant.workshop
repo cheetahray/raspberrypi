@@ -1,0 +1,12 @@
+# The below line not be changed otherwise we refuse to work
+ctrl_interface=/var/run/wpa_supplicant
+
+# Let wpa_supplicant take care of scanning and AP selection
+ap_scan=1
+
+network={
+  ssid="dac_workshop"
+  key_mgmt=NONE
+  wep_key0=0277360708
+  wep_tx_keyidx=0
+}
