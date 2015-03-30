@@ -44,7 +44,7 @@ if data['result']:
      
     #response.text will look like this if we're successful:
     #{"id":1,"jsonrpc":"2.0","result":{"speed":0}}
-else
+else:
     payload = {"jsonrpc": "2.0", "method": "Player.Open", 
                "params": { "item": { "file": "/home/pi/Palmipedarium_AVC_HD.mp4" }}, "id": 1}
     response = requests.post(xbmc_json_rpc_url, data=json.dumps(payload), 
