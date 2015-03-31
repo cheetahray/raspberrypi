@@ -27,7 +27,7 @@ xbmc_host = 'localhost'
 xbmc_port = 8080
 
 counter = 1
-totalnum = 2
+totalnum = 1
 
 sendmsg = '1'
 recemsg = '2'
