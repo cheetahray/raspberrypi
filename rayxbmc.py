@@ -49,12 +49,12 @@ try:
         print >>sys.stderr, 'received "%s"' % data
         if data == recemsg:
             counter += 1
-    tt.stop()
-
+    
 finally:
     print >>sys.stderr, 'closing socket'
     sock.close()
-    
+		tt.stop()
+  
  
 #Base URL of the json RPC calls. For GET calls we append a "request" URI 
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
