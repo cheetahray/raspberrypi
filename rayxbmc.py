@@ -27,12 +27,13 @@ xbmc_host = 'localhost'
 xbmc_port = 8080
 
 counter = 1
+totalnum = 2
 
 sendmsg = '1'
 recemsg = '2'
 
 def myfunc():
-    while(True):
+    while(totalnum > counter):
         print >>sys.stderr, 'sending "%s"' % sendmsg
         sent = sock.sendto(sendmsg, server_address)
         time.sleep(1)
@@ -43,7 +44,7 @@ try:
     time.sleep(1)
     tt.start()
         
-    while 2 > counter:
+    while totalnum > counter:
         # Send data
         print >>sys.stderr, 'waiting to receive'
         data = sock.recvfrom(4096)
