@@ -3,6 +3,7 @@ import json
 import urllib
 import socket
 import sys
+from threading import Thread
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -28,19 +29,25 @@ counter = 1
 
 sendmsg = '1'
 recemsg = '2'
-try:
+
+def myfunc():
+    print >>sys.stderr, 'sending "%s"' % sendmsg
+    sent = sock.sendto(sendmsg, server_address)
+    time.sleep(1)
     
+try:
+    tt = Thread(target=myfunc, args=())
+    time.sleep(1)
+    tt.start()
+        
     while 2 > counter:
         # Send data
-        print >>sys.stderr, 'sending "%s"' % sendmsg
-        sent = sock.sendto(sendmsg, server_address)
-        # Receive response
         print >>sys.stderr, 'waiting to receive'
         data = sock.recvfrom(4096)
         print >>sys.stderr, 'received "%s"' % data
         if data == recemsg:
             counter += 1
-        time.sleep(1)
+    tt.stop()
 
 finally:
     print >>sys.stderr, 'closing socket'
