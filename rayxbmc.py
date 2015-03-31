@@ -4,6 +4,7 @@ import urllib
 import socket
 import sys
 from threading import Thread
+import time
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
