@@ -8,7 +8,7 @@ import sys
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Bind the socket to the port
-server_address = ('192.168.11.255', 52790)
+server_address = ('192.168.11.70', 52790)
 print >>sys.stderr, 'starting up on %s port %s' % server_address
 #sock.bind(server_address)
  
@@ -34,12 +34,12 @@ try:
         # Send data
         print >>sys.stderr, 'sending "%s"' % sendmsg
         sent = sock.sendto(sendmsg, server_address)
-	      # Receive response
+        # Receive response
         print >>sys.stderr, 'waiting to receive'
         data = sock.recvfrom(4096)
         print >>sys.stderr, 'received "%s"' % data
-	      if data == recemsg
-	           counter += 1
+        if data == recemsg:
+            counter += 1
         time.sleep(1)
 
 finally:
