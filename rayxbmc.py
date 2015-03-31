@@ -32,9 +32,10 @@ sendmsg = '1'
 recemsg = '2'
 
 def myfunc():
-    print >>sys.stderr, 'sending "%s"' % sendmsg
-    sent = sock.sendto(sendmsg, server_address)
-    time.sleep(1)
+    while(True):
+        print >>sys.stderr, 'sending "%s"' % sendmsg
+        sent = sock.sendto(sendmsg, server_address)
+        time.sleep(1)
     
 try:
     tt = Thread(target=myfunc, args=())
