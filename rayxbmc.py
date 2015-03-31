@@ -62,7 +62,7 @@ finally:
 xbmc_json_rpc_url = "http://" + xbmc_host + ":" + str(xbmc_port) + "/jsonrpc"
  
 payload = {"jsonrpc": "2.0", "method": "Player.Open", 
-               "params": {"item":{"playlistid":1, "position" : 0}}, "id": 1}
+               "params": {"item":{"playlistid":1, "position" : 1}}, "id": 1}
 #payload = {"jsonrpc": "2.0", "method": "Player.Open", 
 #           "params": { "item": { "file": "/home/pi/Palmipedarium_AVC_HD.mp4" }}, "id": 1}
 response = requests.post(xbmc_json_rpc_url, data=json.dumps(payload), 
