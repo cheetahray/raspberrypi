@@ -6,6 +6,8 @@ import sys
 from threading import Thread
 import time
 
+time.sleep(10)
+
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -61,10 +63,11 @@ finally:
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
 xbmc_json_rpc_url = "http://" + xbmc_host + ":" + str(xbmc_port) + "/jsonrpc"
  
-payload = {"jsonrpc": "2.0", "method": "Player.Open", 
-               "params": {"item":{"playlistid":1, "position" : 1}}, "id": 1}
 #payload = {"jsonrpc": "2.0", "method": "Player.Open", 
+#               "params": {"item":{"playlistid":1, "position" : 0}}, "id": 1}
+payload = {"jsonrpc": "2.0", "method": "Player.Open", 
 #           "params": { "item": { "file": "/home/pi/Palmipedarium_AVC_HD.mp4" }}, "id": 1}
+            "params": { "item": { "file": "/home/kodi/.kodi/userdata/playlists/video/1.m3u" }}, "id": 1}
 response = requests.post(xbmc_json_rpc_url, data=json.dumps(payload), 
                              headers=headers)
 
