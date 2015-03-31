@@ -37,6 +37,7 @@ def myfunc():
         sent = sock.sendto(sendmsg, server_address)
         time.sleep(1)
     
+
 try:
     tt = Thread(target=myfunc, args=())
     time.sleep(1)
@@ -53,7 +54,7 @@ try:
 finally:
     print >>sys.stderr, 'closing socket'
     sock.close()
-		tt.stop()
+    tt.cancel()
   
  
 #Base URL of the json RPC calls. For GET calls we append a "request" URI 
