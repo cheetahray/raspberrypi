@@ -1,12 +1,19 @@
 import requests
 import json
 import urllib
-import socket
+from socket import *
 import sys
 from threading import Thread
 import time
 
 #time.sleep(15)
+
+PORT = 12345 # arbitrary, just make it match in Android code
+IP = "" # represents any IP address
+
+sock = socket(AF_INET, SOCK_DGRAM) # SOCK_DGRAM means UDP socket
+sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1) # make socket reuseable
+sock.bind((IP, PORT))
 
 #Required header for XBMC JSON-RPC calls, otherwise you'll get a 
 #415 HTTP response code - Unsupported media type
@@ -19,14 +26,6 @@ xbmc_host = 'localhost'
  
 #Configured in Settings -> Services -> Webserver -> Port
 xbmc_port = 8080
-
-# Create a TCP/IP socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-# Bind the socket to the port
-server_address = (xbmc_host, 52790)
-print >>sys.stderr, 'starting up on %s port %s' % server_address
-sock.bind(server_address)
 
 #counter = 1
 #totalnum = 1
@@ -50,9 +49,10 @@ try:
     #tt.start()
         
     while True:
-        print >>sys.stderr, 'waiting to receive'
-        data = sock.recvfrom(4096)
-        print >>sys.stderr, 'received "%s"' % data
+        print "Waiting for data..."
+        data, addr = sock.recvfrom(1024) # blocking
+        print "received: " + data
+
         if data == 'go':
 
             payload = {"jsonrpc": "2.0", "method": "Player.Open",
