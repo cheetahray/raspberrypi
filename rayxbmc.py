@@ -89,8 +89,6 @@ try:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
 
-                player_id = data['result'][0]["playerid"]
-
                 payload = {"jsonrpc": "2.0", "method": "Player.Stop",
                            "params": {"playerid": player_id} }
 
