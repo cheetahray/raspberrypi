@@ -86,12 +86,12 @@ def myfunc():
         else:
             player_id = 0
             if True == rayopen:
-                time.sleep(0.033)
+                time.sleep(0.05)
                 sent = sock.sendto(twoshould, raytuple)
                 if one == oneshould and two == twoshould:
                     response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
             else:
-                time.sleep(3)
+                time.sleep(1)
             
 try:
     tt = Thread(target=myfunc, args=())
