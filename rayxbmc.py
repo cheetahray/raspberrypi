@@ -68,8 +68,8 @@ def myfunc():
             player_id = int(data['result'][0]["playerid"])
 
 try:
-    #tt = Thread(target=myfunc, args=())
-    #tt.start()
+    tt = Thread(target=myfunc, args=())
+    tt.start()
         
     while True:
         print "Waiting for data..."
