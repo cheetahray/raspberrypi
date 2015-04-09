@@ -43,7 +43,7 @@ payload = {"jsonrpc": "2.0", "method": "Player.Open",
             #          "params": {"item":{"playlistid":1, "position" : 0}}, "id": 1}
             #          "params": { "item": { "file": "/home/pi/Palmipedarium_AVC_HD.mp4" }}, "id": 1}
                        "params": { "item": { "file": "/home/kodi/.kodi/userdata/playlists/video/1.m3u" }}, "id": 1}
-data = json.dumps(payload)
+raydata = json.dumps(payload)
 #Base URL of the json RPC calls. For GET calls we append a "request" URI
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
             
@@ -78,7 +78,7 @@ try:
 
         if data == 'go':
 
-            response = requests.post(xbmc_json_rpc_url, data, headers=headers)
+            response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
             
             print response.text
 
