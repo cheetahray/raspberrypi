@@ -48,12 +48,17 @@ payload = {"jsonrpc": "2.0", "method": "Player.Open",
 raydata = json.dumps(payload)
 #Base URL of the json RPC calls. For GET calls we append a "request" URI
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
+one = two = ''
+oneshould = '11'
+twoshould = '22'
+rayopen = False
             
 def myfunc():
     global player_id
+    global rayopen
+    global one, two
+    global oneshould, twoshould
     while True:
-
-        time.sleep(2)
 
         response = requests.get(rayget, headers=headers)
         #response.text will look like this if something is playing
@@ -65,6 +70,7 @@ def myfunc():
         #result is an empty list if nothing is playing or paused.
         
         if threaddata['result']:
+            time.sleep(2)
             #We need the specific "playerid" of the currently playing file in order
             #to pause it
             player_id = int(threaddata['result'][0]["playerid"])
@@ -76,11 +82,17 @@ def myfunc():
                          
             prodata = json.loads(response.text)         
             print response.text
-            
+            one = two = ''            
         else:
             player_id = 0
-            sent = sock.sendto("22", raytuple)
-        
+            if True == rayopen
+                time.sleep(0.033)
+                sent = sock.sendto(twoshould, raytuple)
+                if one == oneshould and two == twoshould
+                    response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
+            else:
+                time.sleep(3)
+            
 try:
     tt = Thread(target=myfunc, args=())
     tt.start()
@@ -90,14 +102,14 @@ try:
         data, addr = sock.recvfrom(1024) # blocking
         print "received: " + data
 
-        if data == 'go':
-
-            if player_id == 0:
-          
-                response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
-                
+        if data == oneshould:
+            one = data
+        elif data == twoshould:
+            two = data
+        elif data == 'go':
+            rayopen = True                
         elif data == 'no':
-
+            rayopen = False
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
