@@ -67,7 +67,15 @@ def myfunc():
             #to pause it
             player_id = int(threaddata['result'][0]["playerid"])
             
-        else:
+            proload = {"jsonrpc": "2.0", "method": "Player.GetProperties",
+                           "params": { "playerid": player_id, "properties" : ["percentage"] }, "id": 1}
+            response = requests.get(xbmc_json_rpc_url + '?' + urllib.urlencode({'request': json.dumps(proload)}),
+                                        headers=headers)
+                         
+            prodata = json.loads(response.text)         
+            print response.text
+            
+        else
             player_id = 0
       
 try:
@@ -84,18 +92,6 @@ try:
             if player_id == 0:
           
                 response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
-                
-                proload = {"jsonrpc": "2.0", "method": "Player.GetProperties",
-                           "params": { "playerid": player_id, "properties" : ["percentage"] }, "id": 1}
-                response = requests.get(xbmc_json_rpc_url + '?' + urllib.urlencode({'request': json.dumps(payload)}),
-                                        headers=headers)
-                         
-                prodata = json.loads(response.text)         
-                print response.text
-                
-                #if prodata["result"]["percentage"]:
-                    #response.text will look like this if we're successful:
-                    #{"id":1,"jsonrpc":"2.0","result":{"speed":0}}
                 
         elif data == 'no':
 
