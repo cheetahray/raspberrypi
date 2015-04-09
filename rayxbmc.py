@@ -85,7 +85,7 @@ try:
 
         elif data == 'no':
 
-            if player_id > 0:
+            if int(player_id) > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
 
