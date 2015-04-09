@@ -28,8 +28,8 @@ xbmc_host = 'localhost'
 xbmc_port = 8080
 xbmc_json_rpc_url = "http://" + xbmc_host + ":" + str(xbmc_port) + "/jsonrpc"
 
-#counter = 1
-#totalnum = 1
+counter = 1
+totalnum = 1
 player_id = 0
 #sendmsg = '1'
 #recemsg = '2'
@@ -48,7 +48,7 @@ data = json.dumps(payload)
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
             
 def myfunc():
-    while(totalnum > counter):
+    while True:
 
         time.sleep(2)
 
