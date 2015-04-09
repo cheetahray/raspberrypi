@@ -26,6 +26,7 @@ xbmc_host = 'localhost'
  
 #Configured in Settings -> Services -> Webserver -> Port
 xbmc_port = 8080
+xbmc_json_rpc_url = "http://" + xbmc_host + ":" + str(xbmc_port) + "/jsonrpc"
 
 #counter = 1
 #totalnum = 1
@@ -45,7 +46,6 @@ payload = {"jsonrpc": "2.0", "method": "Player.Open",
 data = json.dumps(payload)
 #Base URL of the json RPC calls. For GET calls we append a "request" URI
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
-xbmc_json_rpc_url = "http://" + xbmc_host + ":" + str(xbmc_port) + "/jsonrpc"
             
 def myfunc():
     while(totalnum > counter):
