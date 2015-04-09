@@ -60,14 +60,14 @@ def myfunc():
  
         threaddata = json.loads(response.text)
         #result is an empty list if nothing is playing or paused.
-        print response.text
         
         if threaddata['result']:
             #We need the specific "playerid" of the currently playing file in order
             #to pause it
 
             player_id = int(threaddata['result'][0]["playerid"])
-
+            print player_id
+      
 try:
     tt = Thread(target=myfunc, args=())
     tt.start()
@@ -84,7 +84,7 @@ try:
             print response.text
 
         elif data == 'no':
-
+            print player_id
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
