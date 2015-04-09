@@ -52,7 +52,7 @@ def myfunc():
 
         time.sleep(2)
 
-				response = requests.get(rayget, headers=headers)
+        response = requests.get(rayget, headers=headers)
         #response.text will look like this if something is playing
         #{"id":1,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
         #and if nothing is playing:
