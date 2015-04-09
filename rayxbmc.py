@@ -85,7 +85,7 @@ def myfunc():
             one = two = ''            
         else:
             player_id = 0
-            if True == rayopen
+            if True == rayopen:
                 time.sleep(0.033)
                 sent = sock.sendto(twoshould, raytuple)
                 if one == oneshould and two == twoshould
