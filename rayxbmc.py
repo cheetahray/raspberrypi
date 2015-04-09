@@ -48,6 +48,7 @@ raydata = json.dumps(payload)
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
             
 def myfunc():
+    global player_id
     while True:
 
         time.sleep(2)
@@ -66,7 +67,6 @@ def myfunc():
             #to pause it
 
             player_id = int(threaddata['result'][0]["playerid"])
-            print player_id
       
 try:
     tt = Thread(target=myfunc, args=())
@@ -84,7 +84,7 @@ try:
             print response.text
 
         elif data == 'no':
-            print player_id
+
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
