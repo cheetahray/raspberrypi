@@ -67,7 +67,7 @@ def myfunc():
             #to pause it
             player_id = int(threaddata['result'][0]["playerid"])
             
-        else
+        else:
             player_id = 0
       
 try:
