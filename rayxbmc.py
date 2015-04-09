@@ -77,7 +77,8 @@ def myfunc():
             
         else:
             player_id = 0
-      
+            sent = sock.sendto("try", IP)
+        
 try:
     tt = Thread(target=myfunc, args=())
     tt.start()
