@@ -81,11 +81,11 @@ try:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
 
-                player_id = data['result'][0]["playerid"]
+                player_id = int(data['result'][0]["playerid"])
 
         elif data == 'no':
 
-            if int(player_id) > 0:
+            if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
 
