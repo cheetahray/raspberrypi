@@ -13,7 +13,9 @@ IP = "" # represents any IP address
 
 sock = socket(AF_INET, SOCK_DGRAM) # SOCK_DGRAM means UDP socket
 sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1) # make socket reuseable
+sock.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
 sock.bind((IP, PORT))
+raytuple = ("192.168.11.255",PORT)
 
 #Required header for XBMC JSON-RPC calls, otherwise you'll get a 
 #415 HTTP response code - Unsupported media type
@@ -75,9 +77,9 @@ def myfunc():
             prodata = json.loads(response.text)         
             print response.text
             
-        else
+        else:
             player_id = 0
-            sent = sock.sendto("22", [192.168.11.255])
+            sent = sock.sendto("22", raytuple)
         
 try:
     tt = Thread(target=myfunc, args=())
