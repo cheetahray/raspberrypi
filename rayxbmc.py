@@ -58,14 +58,15 @@ def myfunc():
         #and if nothing is playing:
         #{"id":1,"jsonrpc":"2.0","result":[]}
  
-        data = json.loads(response.text)
+        threaddata = json.loads(response.text)
         #result is an empty list if nothing is playing or paused.
-
-        if data['result']:
+        print response.text
+        
+        if threaddata['result']:
             #We need the specific "playerid" of the currently playing file in order
             #to pause it
 
-            player_id = int(data['result'][0]["playerid"])
+            player_id = int(threaddata['result'][0]["playerid"])
 
 try:
     tt = Thread(target=myfunc, args=())
