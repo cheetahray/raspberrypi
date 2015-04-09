@@ -29,23 +29,22 @@ xbmc_port = 8080
 
 #counter = 1
 #totalnum = 1
-
+player_id = 0
 #sendmsg = '1'
 #recemsg = '2'
 
-#def myfunc():
-    #while(totalnum > counter):
-        #print >>sys.stderr, 'sending "%s"' % sendmsg
-        #sent = sock.sendto(sendmsg, server_address)
-        #time.sleep(1)
-     
+def myfunc():
+    while(totalnum > counter):
+        time.sleep(1)
+        print >>sys.stderr, 'sending "%s"' % sendmsg
+        sent = sock.sendto(sendmsg, server_address)
+        
 #Base URL of the json RPC calls. For GET calls we append a "request" URI
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
 xbmc_json_rpc_url = "http://" + xbmc_host + ":" + str(xbmc_port) + "/jsonrpc"
 
 try:
     #tt = Thread(target=myfunc, args=())
-    #time.sleep(1)
     #tt.start()
         
     while True:
@@ -63,8 +62,6 @@ try:
                                  headers=headers)
             print response.text
 
-        elif data == 'no':
-
             #Payload for the method to get the currently playing / paused video or audio
             payload = {"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}
             url_param = urllib.urlencode({'request': json.dumps(payload)})
@@ -81,6 +78,14 @@ try:
             #result is an empty list if nothing is playing or paused.
 
             if data['result']:
+                #We need the specific "playerid" of the currently playing file in order
+                #to pause it
+
+                player_id = data['result'][0]["playerid"]
+
+        elif data == 'no':
+
+            if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
 
