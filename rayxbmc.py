@@ -65,8 +65,10 @@ def myfunc():
         if threaddata['result']:
             #We need the specific "playerid" of the currently playing file in order
             #to pause it
-
             player_id = int(threaddata['result'][0]["playerid"])
+            
+        else
+            player_id = 0
       
 try:
     tt = Thread(target=myfunc, args=())
@@ -79,10 +81,22 @@ try:
 
         if data == 'go':
 
-            response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
-            
-            print response.text
-
+            if player_id == 0:
+          
+                response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
+                
+                proload = {"jsonrpc": "2.0", "method": "Player.GetProperties",
+                           "params": { "playerid": player_id, "properties" : ["percentage"] }, "id": 1}
+                response = requests.get(xbmc_json_rpc_url + '?' + urllib.urlencode({'request': json.dumps(payload)}),
+                                        headers=headers)
+                         
+                prodata = json.loads(response.text)         
+                print response.text
+                
+                #if prodata["result"]["percentage"]:
+                    #response.text will look like this if we're successful:
+                    #{"id":1,"jsonrpc":"2.0","result":{"speed":0}}
+                
         elif data == 'no':
 
             if player_id > 0:
@@ -90,10 +104,7 @@ try:
                 #to pause it
 
                 rayload = {"jsonrpc": "2.0", "method": "Player.Stop", "params": {"playerid": player_id} }
-
                 response = requests.post(xbmc_json_rpc_url, json.dumps(rayload), headers=headers)
-                        
-                print response.text
 
 finally:
     print >>sys.stderr, 'closing socket'
