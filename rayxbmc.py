@@ -33,15 +33,39 @@ player_id = 0
 #sendmsg = '1'
 #recemsg = '2'
 
-def myfunc():
-    while(totalnum > counter):
-        time.sleep(1)
-        print >>sys.stderr, 'sending "%s"' % sendmsg
-        sent = sock.sendto(sendmsg, server_address)
-        
+#Payload for the method to get the currently playing / paused video or audio
+payload = {"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}
+url_param = urllib.urlencode({'request': json.dumps(payload)})
+rayget = xbmc_json_rpc_url + '?' + url_param 
+ 
+payload = {"jsonrpc": "2.0", "method": "Player.Open",
+            #          "params": {"item":{"playlistid":1, "position" : 0}}, "id": 1}
+            #          "params": { "item": { "file": "/home/pi/Palmipedarium_AVC_HD.mp4" }}, "id": 1}
+                       "params": { "item": { "file": "/home/kodi/.kodi/userdata/playlists/video/1.m3u" }}, "id": 1}
+data = json.dumps(payload)
 #Base URL of the json RPC calls. For GET calls we append a "request" URI
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
 xbmc_json_rpc_url = "http://" + xbmc_host + ":" + str(xbmc_port) + "/jsonrpc"
+            
+def myfunc():
+    while(totalnum > counter):
+
+        time.sleep(2)
+
+				response = requests.get(rayget, headers=headers)
+        #response.text will look like this if something is playing
+        #{"id":1,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
+        #and if nothing is playing:
+        #{"id":1,"jsonrpc":"2.0","result":[]}
+ 
+        data = json.loads(response.text)
+        #result is an empty list if nothing is playing or paused.
+
+        if data['result']:
+            #We need the specific "playerid" of the currently playing file in order
+            #to pause it
+
+            player_id = int(data['result'][0]["playerid"])
 
 try:
     #tt = Thread(target=myfunc, args=())
@@ -54,34 +78,9 @@ try:
 
         if data == 'go':
 
-            payload = {"jsonrpc": "2.0", "method": "Player.Open",
-            #          "params": {"item":{"playlistid":1, "position" : 0}}, "id": 1}
-            #          "params": { "item": { "file": "/home/pi/Palmipedarium_AVC_HD.mp4" }}, "id": 1}
-                       "params": { "item": { "file": "/home/kodi/.kodi/userdata/playlists/video/1.m3u" }}, "id": 1}
-            response = requests.post(xbmc_json_rpc_url, data=json.dumps(payload),
-                                 headers=headers)
+            response = requests.post(xbmc_json_rpc_url, data, headers=headers)
+            
             print response.text
-
-            #Payload for the method to get the currently playing / paused video or audio
-            payload = {"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}
-            url_param = urllib.urlencode({'request': json.dumps(payload)})
- 
-            response = requests.get(xbmc_json_rpc_url + '?' + url_param,
-                        headers=headers)
- 
-            #response.text will look like this if something is playing
-            #{"id":1,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
-            #and if nothing is playing:
-            #{"id":1,"jsonrpc":"2.0","result":[]}
- 
-            data = json.loads(response.text)
-            #result is an empty list if nothing is playing or paused.
-
-            if data['result']:
-                #We need the specific "playerid" of the currently playing file in order
-                #to pause it
-
-                player_id = int(data['result'][0]["playerid"])
 
         elif data == 'no':
 
@@ -89,11 +88,10 @@ try:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
 
-                payload = {"jsonrpc": "2.0", "method": "Player.Stop",
-                           "params": {"playerid": player_id} }
+                rayload = {"jsonrpc": "2.0", "method": "Player.Stop", "params": {"playerid": player_id} }
 
-                response = requests.post(xbmc_json_rpc_url, data=json.dumps(payload),
-                                 headers=headers)        
+                response = requests.post(xbmc_json_rpc_url, json.dumps(rayload), headers=headers)
+                        
                 print response.text
 
 finally:
