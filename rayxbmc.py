@@ -83,7 +83,7 @@ def myfunc():
             prodata = json.loads(response.text)         
             print response.text
             one = two = ''
-            if prodata['result']:
+            if prodata:
                 if float(prodata['result']["percentage"]) > 99.0:
                     rayopen = True
                             
