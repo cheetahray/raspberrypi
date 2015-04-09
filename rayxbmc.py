@@ -75,7 +75,7 @@ def myfunc():
             prodata = json.loads(response.text)         
             print response.text
             
-        else
+        else:
             player_id = 0
       
 try:
