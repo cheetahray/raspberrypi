@@ -61,8 +61,6 @@ rayspeed = 1
 def mystopfun():
     global rayspeed
     global raydebug
-    global ishould
-    global raytuple
     global player_id
     if player_id > 0 and 1 == rayspeed:
         pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
@@ -78,7 +76,8 @@ def myspeedfun():
     global ishould
     global raytuple
     sent = sock.sendto(ishould, raytuple)
-    if 0 == rayspeed:
+    global player_id
+    if player_id > 0 and 0 == rayspeed:
         pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
         response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
         pausedata = json.loads(response.text)

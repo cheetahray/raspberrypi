@@ -108,9 +108,8 @@ def myfunc():
                     player_id = int(threaddata['result'][0]["playerid"])
                     mystopfun()                                        
             elif '' == iwant:
-                time.sleep(0.4)
+                time.sleep(1)
                 sent = sock.sendto(iam, raytuple)
-                                	
             else:               
                 time.sleep(2)
             
@@ -132,10 +131,9 @@ def myfunc():
                             print response.text
                         gettingclose = True
                     elif True == gettingclose and rayfloat < 1.0:
-                        mystopfun()
                         iwant = ''
                         gettingclose = False
-                            
+                        mystopfun()                            
                     
 try:
     tt = Thread(target=myfunc, args=())
@@ -158,7 +156,8 @@ try:
                 if True == raydebug:
                     print response.text
         elif data == 'no':
-            iam = iwant = ''
+            iam = ''
+            iwant = ''
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
