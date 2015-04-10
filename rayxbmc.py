@@ -56,6 +56,7 @@ twoshould = twowant + twowant
 rayopen = False
 gettingclose = False          
 raydebug = True
+rayspeed = 1
             
 def myfunc():
     global player_id
@@ -63,6 +64,7 @@ def myfunc():
     global one, two, onewant, twowant
     global oneshould, twoshould
     global gettingclose
+    global rayspeed
     while True:
 
         if True == rayopen:
@@ -94,12 +96,22 @@ def myfunc():
                 if player_id > 0:
                     pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
                     response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
+                    pausedata = json.loads(response.text)
+                    rayspeed = int(pausedata['result'][0]["speed"])
                     if True == raydebug:
                         print response.text
                 
                 time.sleep(0.05)
                                 	
-            else:                 
+            else:               
+            	 if 0 == rayspeed: 
+            	      pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
+                    response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
+                    pausedata = json.loads(response.text)
+                    rayspeed = int(pausedata['result'][0]["speed"])
+                    if True == raydebug:
+                        print response.text
+                      
                 time.sleep(2)
             
                 proload = {"jsonrpc": "2.0", "method": "Player.GetProperties",
@@ -159,14 +171,6 @@ try:
                 if True == raydebug:
                     print response.text
                 player_id = 0
-        
-        if one == oneshould and two == twoshould:
-            print "why"
-            if player_id > 0:
-                pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
-                response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
-                if True == raydebug:
-                    print response.text
                 
 finally:
     if True == raydebug:
