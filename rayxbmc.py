@@ -69,7 +69,7 @@ def myfunc():
 
         if True == rayopen:
             
-            twobol = (two == twoshould)
+            onebol = (one == oneshould)
             
             if 0 == player_id:
                 time.sleep(0.1)
@@ -89,26 +89,26 @@ def myfunc():
                     #to pause it
                     player_id = int(threaddata['result'][0]["playerid"])
                                         
-            elif False == twobol:
-                if False == twobol:
-                    one = oneshould
-                    sent = sock.sendto(twowant, raytuple)
+            elif False == onebol:
+                two = twoshould
+                if False == onebol:
+                    sent = sock.sendto(onewant, raytuple)
                 if player_id > 0:
                     pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
                     response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
                     pausedata = json.loads(response.text)
-                    rayspeed = int(pausedata['result'][0]["speed"])
+                    rayspeed = int(pausedata['result']["speed"])
                     if True == raydebug:
                         print response.text
                 
                 time.sleep(0.05)
                                 	
             else:               
-            	 if 0 == rayspeed: 
-            	      pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
+                if 0 == rayspeed: 
+                    pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
                     response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
                     pausedata = json.loads(response.text)
-                    rayspeed = int(pausedata['result'][0]["speed"])
+                    rayspeed = int(pausedata['result']["speed"])
                     if True == raydebug:
                         print response.text
                       
@@ -163,6 +163,7 @@ try:
                     print response.text
         elif data == 'no':
             rayopen = False
+            rayspeed = 1
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
