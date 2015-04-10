@@ -51,7 +51,7 @@ twoshould = '2'
 gettingclose = False
 raydebug = True
 rayspeed = 1
-
+player_id = 0
 def mystopfun():
     global rayspeed
     global raydebug
