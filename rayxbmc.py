@@ -66,7 +66,7 @@ def myfunc():
         if True == rayopen:
         
             if 0 == player_id:
-                #time.sleep(1)
+                time.sleep(0.1)
              
                 response = requests.get(rayget, headers=headers)
                 #response.text will look like this if something is playing
@@ -86,7 +86,7 @@ def myfunc():
             elif one != oneshould:
                 if two != twoshould:
                     if player_id > 0:
-                        pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
+                        pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
                         response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
                         if True == raydebug:
                             print response.text
@@ -129,11 +129,6 @@ try:
         if True == raydebug:
             print "received: " + data
 
-        if one == oneshould and two == twoshould:
-            if player_id > 0:
-                pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
-                if True == raydebug:
-                    response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
         if data == oneshould:
             one = data
         elif data == twoshould:
@@ -149,12 +144,18 @@ try:
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
-                player_id = 0
                 rayload = {"jsonrpc": "2.0", "method": "Player.Stop", "params": {"playerid": player_id} }
                 response = requests.post(xbmc_json_rpc_url, json.dumps(rayload), headers=headers)
                 if True == raydebug:
                     print response.text
-
+                player_id = 0
+        
+        if one == oneshould and two == twoshould:
+            if player_id > 0:
+                pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
+                if True == raydebug:
+                    response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
+                
 finally:
     if True == raydebug:
         print >>sys.stderr, 'closing socket'
