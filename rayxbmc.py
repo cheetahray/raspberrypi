@@ -129,11 +129,11 @@ try:
     tt.start()
         
     while True:
-        #if True == raydebug:
-            #print "Waiting for data..."
+        if True == raydebug:
+            print "Waiting for data..."
         data, addr = sock.recvfrom(1024) # blocking
-        #if True == raydebug:
-            #print "received: " + data
+        if True == raydebug:
+            print "received: " + data
 
         if data == oneshould:
             one = data
@@ -161,10 +161,12 @@ try:
                 player_id = 0
         
         if one == oneshould and two == twoshould:
+            print "why"
             if player_id > 0:
                 pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
+                response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
                 if True == raydebug:
-                    response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
+                    print response.text
                 
 finally:
     if True == raydebug:
