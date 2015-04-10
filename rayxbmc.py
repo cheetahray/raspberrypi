@@ -136,7 +136,7 @@ try:
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
-
+                player_id = 0
                 rayload = {"jsonrpc": "2.0", "method": "Player.Stop", "params": {"playerid": player_id} }
                 response = requests.post(xbmc_json_rpc_url, json.dumps(rayload), headers=headers)
 
