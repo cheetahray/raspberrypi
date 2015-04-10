@@ -52,6 +52,7 @@ one = two = ''
 oneshould = '11'
 twoshould = '22'
 rayopen = False
+gettingclose = False          
             
 def myfunc():
     global player_id
@@ -60,41 +61,55 @@ def myfunc():
     global oneshould, twoshould
     while True:
 
-        response = requests.get(rayget, headers=headers)
-        #response.text will look like this if something is playing
-        #{"id":1,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
-        #and if nothing is playing:
-        #{"id":1,"jsonrpc":"2.0","result":[]}
- 
-        threaddata = json.loads(response.text)
-        #result is an empty list if nothing is playing or paused.
+        if True == rayopen
         
-        if threaddata['result']:
-            time.sleep(2)
-            #We need the specific "playerid" of the currently playing file in order
-            #to pause it
-            player_id = int(threaddata['result'][0]["playerid"])
-            
-            proload = {"jsonrpc": "2.0", "method": "Player.GetProperties",
-                           "params": { "playerid": player_id, "properties" : ["percentage"] }, "id": 1}
-            response = requests.get(xbmc_json_rpc_url + '?' + urllib.urlencode({'request': json.dumps(proload)}),
-                                        headers=headers)
-                         
-            prodata = json.loads(response.text)         
-            print response.text
-            one = two = ''
-            if prodata.has_key('result'):
-                if float(prodata['result']["percentage"]) > 99.0:
-                    rayopen = True
-                            
-        else:
-            player_id = 0
-            time.sleep(0.04)
-            if True == rayopen:
+            if 0 == player_id
+                #time.sleep(1)
+             
+                response = requests.get(rayget, headers=headers)
+                #response.text will look like this if something is playing
+                #{"id":1,"jsonrpc":"2.0","result":[{"playerid":1,"type":"video"}]}
+                #and if nothing is playing:
+                #{"id":1,"jsonrpc":"2.0","result":[]}
+ 
+                threaddata = json.loads(response.text)
+                #result is an empty list if nothing is playing or paused.
+        
+                if threaddata['result']:
+                    #We need the specific "playerid" of the currently playing file in order
+                    #to pause it
+                    player_id = int(threaddata['result'][0]["playerid"])
+                                        
+            elif one != oneshould:
+                if two != twoshould:
+                    pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":false},"id":1}
+                    response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
+                time.sleep(0.1)
                 sent = sock.sendto(twoshould, raytuple)
-                if one == oneshould and two == twoshould:
-                    response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
-                    rayopen = False
+                                	
+            else:                 
+                time.sleep(2)
+            
+                proload = {"jsonrpc": "2.0", "method": "Player.GetProperties",
+                           "params": { "playerid": player_id, "properties" : ["percentage"] }, "id": 1}
+                response = requests.get(xbmc_json_rpc_url + '?' + urllib.urlencode({'request': json.dumps(proload)}),
+                                        headers=headers)
+
+                prodata = json.loads(response.text)                     
+                print response.text            
+                if prodata.has_key('result'):
+                    rayfloat = float(prodata['result']["percentage"])
+                    if rayfloat > 99.0:
+                        repeatload = {"jsonrpc": "2.0", "method": "Player.SetRepeat", "params": { "playerid": player_id, "repeat": "all" }, "id": 1}
+                        response = requests.post(xbmc_json_rpc_url, json.dumps(repeatload), headers=headers)
+                        #repeatdata = json.loads(response.text)         
+                        print response.text
+                        gettingclose = True
+                    elif True == gettingclose and rayfloat < 1.0:
+                        one = two = ''
+                        gettingclose = False
+                            
+                    
 try:
     tt = Thread(target=myfunc, args=())
     tt.start()
@@ -104,12 +119,18 @@ try:
         data, addr = sock.recvfrom(1024) # blocking
         print "received: " + data
 
+        if one == oneshould and two == twoshould:
+            pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":true},"id":1}
+            response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
+                            
         if data == oneshould:
             one = data
         elif data == twoshould:
             two = data
         elif data == 'go':
-            rayopen = True                
+            rayopen = True   
+            if 0 == player_id
+                response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
         elif data == 'no':
             rayopen = False
             if player_id > 0:
