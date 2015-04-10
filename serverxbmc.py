@@ -30,12 +30,6 @@ xbmc_host = 'localhost'
 xbmc_port = 8080
 xbmc_json_rpc_url = "http://" + xbmc_host + ":" + str(xbmc_port) + "/jsonrpc"
 
-counter = 1
-totalnum = 1
-player_id = 0
-#sendmsg = '1'
-#recemsg = '2'
-
 #Payload for the method to get the currently playing / paused video or audio
 payload = {"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}
 url_param = urllib.urlencode({'request': json.dumps(payload)})
@@ -164,6 +158,8 @@ try:
         elif data == 'no':
             iam = ''
             cntnow = 0
+            gettingclose = False
+            rayspeed = 1
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
