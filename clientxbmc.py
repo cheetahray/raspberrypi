@@ -65,7 +65,7 @@ def myfunc():
         if '' != iam:
             
             if 0 == player_id:
-                time.sleep(0.1)
+                time.sleep(0.2)
              
                 response = requests.get(rayget, headers=headers)
                 #response.text will look like this if something is playing
@@ -83,9 +83,9 @@ def myfunc():
                     player_id = int(threaddata['result'][0]["playerid"])
                                         
             elif '' == iwant:
-                time.sleep(0.5)
+                time.sleep(0.1)
                 sent = sock.sendto(iam, raytuple)
-                if player_id > 0:
+                if player_id > 0 and 1 == rayspeed:
                     pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
                     response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
                     pausedata = json.loads(response.text)
