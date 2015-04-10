@@ -86,7 +86,7 @@ def myfunc():
             elif one != oneshould:
                 if two != twoshould:
                     if player_id > 0:
-                        pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":"false"},"id":1}
+                        pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
                         response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
                         if True == raydebug:
                             print response.text
@@ -131,7 +131,7 @@ try:
 
         if one == oneshould and two == twoshould:
             if player_id > 0:
-                pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":"true"},"id":1}
+                pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
                 if True == raydebug:
                     response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
         if data == oneshould:
