@@ -88,7 +88,6 @@ def myfunc():
                                         
             elif False == onebol:
                 time.sleep(0.05)
-                two = twoshould
                 if False == onebol:
                     sent = sock.sendto(onewant, raytuple)
                 if player_id > 0:
