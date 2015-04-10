@@ -84,7 +84,7 @@ def myfunc():
                     
                                         
             elif '' == iwant:
-                time.sleep(0.2)
+                time.sleep(0.3)
                 sent = sock.sendto(iam, raytuple)
                 if player_id > 0 and 1 == rayspeed:
                     pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
