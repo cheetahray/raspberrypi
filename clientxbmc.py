@@ -48,8 +48,9 @@ payload = {"jsonrpc": "2.0", "method": "Player.Open",
 raydata = json.dumps(payload)
 #Base URL of the json RPC calls. For GET calls we append a "request" URI
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
-iam = iwant = ''
+iam = ''
 ishould = 'pl'
+iwant = ''
 gettingclose = False          
 raydebug = True
 rayspeed = 1
@@ -58,6 +59,7 @@ def myfunc():
     global player_id
     global gettingclose
     global rayspeed
+    global iam, iwant
     while True:
 
         if '' != iam:
