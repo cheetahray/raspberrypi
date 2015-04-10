@@ -90,7 +90,7 @@ def myfunc():
                         response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
                         if True == raydebug:
                             print response.text
-                time.sleep(0.1)
+                time.sleep(0.05)
                 sent = sock.sendto(twoshould, raytuple)
                                 	
             else:                 
@@ -123,11 +123,11 @@ try:
     tt.start()
         
     while True:
-        if True == raydebug:
-            print "Waiting for data..."
+        #if True == raydebug:
+            #print "Waiting for data..."
         data, addr = sock.recvfrom(1024) # blocking
-        if True == raydebug:
-            print "received: " + data
+        #if True == raydebug:
+            #print "received: " + data
 
         if data == oneshould:
             one = data
