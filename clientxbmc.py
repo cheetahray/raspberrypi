@@ -48,25 +48,19 @@ payload = {"jsonrpc": "2.0", "method": "Player.Open",
 raydata = json.dumps(payload)
 #Base URL of the json RPC calls. For GET calls we append a "request" URI
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
-one = two = ''
-onewant = '1'
-twowant = '2'
-oneshould = onewant + onewant
-twoshould = twowant + twowant
+iam = iwant = ''
+ishould = 'pl'
 gettingclose = False          
 raydebug = True
 rayspeed = 1
             
 def myfunc():
     global player_id
-    global one, two, onewant, twowant
-    global oneshould, twoshould
     global gettingclose
     global rayspeed
     while True:
 
-        if two == twoshould:
-            onebol = (one == oneshould)
+        if '' != iam:
             
             if 0 == player_id:
                 time.sleep(0.1)
@@ -86,10 +80,9 @@ def myfunc():
                     #to pause it
                     player_id = int(threaddata['result'][0]["playerid"])
                                         
-            elif False == onebol:
-                time.sleep(0.05)
-                if False == onebol:
-                    sent = sock.sendto(onewant, raytuple)
+            elif '' == iwant:
+                time.sleep(0.5)
+                sent = sock.sendto(iam, raytuple)
                 if player_id > 0:
                     pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
                     response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
@@ -99,14 +92,6 @@ def myfunc():
                         print response.text
                                 	
             else:               
-                if 0 == rayspeed: 
-                    pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
-                    response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
-                    pausedata = json.loads(response.text)
-                    rayspeed = int(pausedata['result']["speed"])
-                    if True == raydebug:
-                        print response.text
-                      
                 time.sleep(2)
             
                 proload = {"jsonrpc": "2.0", "method": "Player.GetProperties",
@@ -127,7 +112,7 @@ def myfunc():
                             print response.text
                         gettingclose = True
                     elif True == gettingclose and rayfloat < 1.0:
-                        one = ''
+                        iwant = ''
                         gettingclose = False
                             
                     
@@ -141,23 +126,16 @@ try:
         data, addr = sock.recvfrom(1024) # blocking
         if True == raydebug:
             print "received: " + data
+        
 
-        if data == oneshould:
-            one = data
-        elif data == twoshould:
-            two = data
-        elif data == onewant:
-            sent = sock.sendto(oneshould, raytuple)
-        elif data == twowant:
-            sent = sock.sendto(twoshould, raytuple)
-        elif data == 'go':
-            two = twoshould   
+        if data == 'go':
+            iam = '2'   
             if 0 == player_id:
                 response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
                 if True == raydebug:
                     print response.text
         elif data == 'no':
-            one = two = ''
+            iam = iwant = ''
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
@@ -166,6 +144,15 @@ try:
                 if True == raydebug:
                     print response.text
                 player_id = 0
+        elif data == ishould:
+            iwant = ishould
+            if 0 == rayspeed: 
+                pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
+                response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
+                pausedata = json.loads(response.text)
+                rayspeed = int(pausedata['result']["speed"])
+                if True == raydebug:
+                    print response.text
                 
 finally:
     if True == raydebug:
