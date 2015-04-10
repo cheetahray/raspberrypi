@@ -134,6 +134,7 @@ def myfunc():
                     elif True == gettingclose and rayfloat < 1.0:
                         cntnow = 0
                         gettingclose = False
+                        two = ''
                         mystopfun()
         else:
             time.sleep(1)
