@@ -86,7 +86,7 @@ def myfunc():
                     player_id = int(threaddata['result'][0]["playerid"])
 
             elif 0 == cntnow:
-                time.sleep(0.3)
+                time.sleep(0.4)
                 if player_id > 0 and 1 == rayspeed:
                     pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
                     response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
