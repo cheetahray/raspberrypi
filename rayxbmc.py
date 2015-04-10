@@ -49,8 +49,10 @@ raydata = json.dumps(payload)
 #Base URL of the json RPC calls. For GET calls we append a "request" URI
 #parameter. For POSTs, we add the payload as JSON the the HTTP request body
 one = two = ''
-oneshould = '11'
-twoshould = '22'
+onewant = '1'
+twowant = '2'
+oneshould = onewant + onewant
+twoshould = twowant + twowant
 rayopen = False
 gettingclose = False          
 raydebug = True
@@ -58,13 +60,15 @@ raydebug = True
 def myfunc():
     global player_id
     global rayopen
-    global one, two
+    global one, two, onewant, twowant
     global oneshould, twoshould
     global gettingclose
     while True:
 
         if True == rayopen:
-        
+            
+            onebol = (one == oneshould)
+            
             if 0 == player_id:
                 time.sleep(0.1)
              
@@ -83,15 +87,16 @@ def myfunc():
                     #to pause it
                     player_id = int(threaddata['result'][0]["playerid"])
                                         
-            elif one != oneshould:
-                if two != twoshould:
-                    if player_id > 0:
-                        pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
-                        response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
-                        if True == raydebug:
-                            print response.text
+            elif False == onebol:
+                if False == onebol:
+                    sent = sock.sendto(onewant, raytuple)
+                if player_id > 0:
+                    pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
+                    response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
+                    if True == raydebug:
+                        print response.text
+                
                 time.sleep(0.05)
-                sent = sock.sendto(twoshould, raytuple)
                                 	
             else:                 
                 time.sleep(2)
@@ -133,6 +138,10 @@ try:
             one = data
         elif data == twoshould:
             two = data
+        elif data == onewant
+            sent = sock.sendto(oneshould, raytuple)
+        elif data == twowant
+            sent = sock.sendto(twoshould, raytuple)
         elif data == 'go':
             rayopen = True   
             if 0 == player_id:
