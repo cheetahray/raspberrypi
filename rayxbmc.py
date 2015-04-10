@@ -61,9 +61,9 @@ def myfunc():
     global oneshould, twoshould
     while True:
 
-        if True == rayopen
+        if True == rayopen:
         
-            if 0 == player_id
+            if 0 == player_id:
                 #time.sleep(1)
              
                 response = requests.get(rayget, headers=headers)
@@ -129,7 +129,7 @@ try:
             two = data
         elif data == 'go':
             rayopen = True   
-            if 0 == player_id
+            if 0 == player_id:
                 response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
         elif data == 'no':
             rayopen = False
