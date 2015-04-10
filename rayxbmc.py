@@ -67,7 +67,7 @@ def myfunc():
 
         if True == rayopen:
             
-            onebol = (one == oneshould)
+            twobol = (two == twoshould)
             
             if 0 == player_id:
                 time.sleep(0.1)
@@ -87,9 +87,10 @@ def myfunc():
                     #to pause it
                     player_id = int(threaddata['result'][0]["playerid"])
                                         
-            elif False == onebol:
-                if False == onebol:
-                    sent = sock.sendto(onewant, raytuple)
+            elif False == twobol:
+                if False == twobol:
+                    one = oneshould
+                    sent = sock.sendto(twowant, raytuple)
                 if player_id > 0:
                     pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
                     response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
@@ -138,9 +139,9 @@ try:
             one = data
         elif data == twoshould:
             two = data
-        elif data == onewant
+        elif data == onewant:
             sent = sock.sendto(oneshould, raytuple)
-        elif data == twowant
+        elif data == twowant:
             sent = sock.sendto(twoshould, raytuple)
         elif data == 'go':
             rayopen = True   
