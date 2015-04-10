@@ -132,7 +132,7 @@ def myfunc():
                         iwant = ''
                         gettingclose = False
                         mystopfun()                            
-        else
+        else:
             time.sleep(1)            
 try:
     tt = Thread(target=myfunc, args=())
