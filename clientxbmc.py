@@ -106,7 +106,7 @@ def myfunc():
                     player_id = int(threaddata['result'][0]["playerid"])
                     mystopfun()                                        
             elif '' == iwant:
-                time.sleep(1)
+                time.sleep(2)
                 sent = sock.sendto(iam, raytuple)
             else:               
                 time.sleep(2)
