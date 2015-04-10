@@ -53,13 +53,14 @@ oneshould = '11'
 twoshould = '22'
 rayopen = False
 gettingclose = False          
-raydebug = False            
+raydebug = True
             
 def myfunc():
     global player_id
     global rayopen
     global one, two
     global oneshould, twoshould
+    global gettingclose
     while True:
 
         if True == rayopen:
@@ -84,9 +85,9 @@ def myfunc():
                                         
             elif one != oneshould:
                 if two != twoshould:
-                    pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":false},"id":1}
+                    pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":"false"},"id":1}
                     response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
-                    if true == raydebug:
+                    if True == raydebug:
                         print response.text
                 time.sleep(0.1)
                 sent = sock.sendto(twoshould, raytuple)
@@ -121,12 +122,14 @@ try:
     tt.start()
         
     while True:
-        print "Waiting for data..."
+        if True == raydebug:
+            print "Waiting for data..."
         data, addr = sock.recvfrom(1024) # blocking
-        print "received: " + data
+        if True == raydebug:
+            print "received: " + data
 
         if one == oneshould and two == twoshould:
-            pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":true},"id":1}
+            pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":"true"},"id":1}
             if True == raydebug:
                 response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
         if data == oneshould:
@@ -151,6 +154,7 @@ try:
                     print response.text
 
 finally:
-    print >>sys.stderr, 'closing socket'
+    if True == raydebug:
+        print >>sys.stderr, 'closing socket'
     sock.close()
     
