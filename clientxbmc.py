@@ -81,9 +81,10 @@ def myfunc():
                     #We need the specific "playerid" of the currently playing file in order
                     #to pause it
                     player_id = int(threaddata['result'][0]["playerid"])
+                    
                                         
             elif '' == iwant:
-                time.sleep(1)
+                time.sleep(0.5)
                 sent = sock.sendto(iam, raytuple)
                 if player_id > 0 and 1 == rayspeed:
                     pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
