@@ -60,6 +60,7 @@ def myfunc():
     global gettingclose
     global rayspeed
     global iam, iwant
+    global raydebug
     while True:
 
         if '' != iam:
