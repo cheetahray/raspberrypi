@@ -135,7 +135,8 @@ def myfunc():
                         cntnow = 0
                         gettingclose = False
                         mystopfun()
-
+        else:
+            time.sleep(1)
 try:
     tt = Thread(target=myfunc, args=())
     tt.start()
