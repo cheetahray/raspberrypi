@@ -53,22 +53,19 @@ onewant = '1'
 twowant = '2'
 oneshould = onewant + onewant
 twoshould = twowant + twowant
-rayopen = False
 gettingclose = False          
 raydebug = True
 rayspeed = 1
             
 def myfunc():
     global player_id
-    global rayopen
     global one, two, onewant, twowant
     global oneshould, twoshould
     global gettingclose
     global rayspeed
     while True:
 
-        if True == rayopen:
-            
+        if two == twoshould:
             onebol = (one == oneshould)
             
             if 0 == player_id:
@@ -90,6 +87,7 @@ def myfunc():
                     player_id = int(threaddata['result'][0]["playerid"])
                                         
             elif False == onebol:
+                time.sleep(0.05)
                 two = twoshould
                 if False == onebol:
                     sent = sock.sendto(onewant, raytuple)
@@ -100,8 +98,6 @@ def myfunc():
                     rayspeed = int(pausedata['result']["speed"])
                     if True == raydebug:
                         print response.text
-                
-                time.sleep(0.05)
                                 	
             else:               
                 if 0 == rayspeed: 
@@ -132,7 +128,7 @@ def myfunc():
                             print response.text
                         gettingclose = True
                     elif True == gettingclose and rayfloat < 1.0:
-                        one = two = ''
+                        one = ''
                         gettingclose = False
                             
                     
@@ -156,14 +152,13 @@ try:
         elif data == twowant:
             sent = sock.sendto(twoshould, raytuple)
         elif data == 'go':
-            rayopen = True   
+            two = twoshould   
             if 0 == player_id:
                 response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
                 if True == raydebug:
                     print response.text
         elif data == 'no':
-            rayopen = False
-            rayspeed = 1
+            one = two = ''
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
