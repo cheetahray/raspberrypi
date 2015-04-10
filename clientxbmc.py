@@ -54,6 +54,17 @@ iwant = ''
 gettingclose = False          
 raydebug = True
 rayspeed = 1
+
+def myspeedfun():
+    global rayspeed
+    global raydebug
+    if 0 == rayspeed: 
+        pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
+        response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
+        pausedata = json.loads(response.text)
+        rayspeed = int(pausedata['result']["speed"])
+        if True == raydebug:
+            print response.text
             
 def myfunc():
     global player_id
@@ -82,8 +93,7 @@ def myfunc():
                     #We need the specific "playerid" of the currently playing file in order
                     #to pause it
                     player_id = int(threaddata['result'][0]["playerid"])
-                    
-                                        
+                                                            
             elif '' == iwant:
                 time.sleep(0.4)
                 sent = sock.sendto(iam, raytuple)
@@ -131,8 +141,10 @@ try:
         if True == raydebug:
             print "received: " + data
         
-
-        if data == 'go':
+        if data == ishould:
+            iwant = ishould
+            myspeedfun()
+        elif data == 'go':
             iam = '2'   
             if 0 == player_id:
                 response = requests.post(xbmc_json_rpc_url, raydata, headers=headers)
@@ -148,15 +160,6 @@ try:
                 if True == raydebug:
                     print response.text
                 player_id = 0
-        elif data == ishould:
-            iwant = ishould
-            if 0 == rayspeed: 
-                pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
-                response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
-                pausedata = json.loads(response.text)
-                rayspeed = int(pausedata['result']["speed"])
-                if True == raydebug:
-                    print response.text
                 
 finally:
     if True == raydebug:
