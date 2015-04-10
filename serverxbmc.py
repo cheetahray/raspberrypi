@@ -160,6 +160,7 @@ try:
             cntnow = 0
             gettingclose = False
             rayspeed = 1
+            two = ''
             if player_id > 0:
                 #We need the specific "playerid" of the currently playing file in order
                 #to pause it
