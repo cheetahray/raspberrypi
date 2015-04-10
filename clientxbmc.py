@@ -95,6 +95,7 @@ def myfunc():
                     player_id = int(threaddata['result'][0]["playerid"])
                                                             
             elif '' == iwant:
+                print "111"
                 time.sleep(0.4)
                 sent = sock.sendto(iam, raytuple)
                 if player_id > 0 and 1 == rayspeed:
@@ -126,6 +127,7 @@ def myfunc():
                             print response.text
                         gettingclose = True
                     elif True == gettingclose and rayfloat < 1.0:
+                        print "222" + iwant
                         iwant = ''
                         gettingclose = False
                             
@@ -143,6 +145,7 @@ try:
         
         if data == ishould:
             iwant = ishould
+            print "333" + iwant
             myspeedfun()
         elif data == 'go':
             iam = '2'   
