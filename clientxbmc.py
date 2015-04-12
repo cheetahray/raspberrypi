@@ -60,10 +60,6 @@ def mystopfun():
         rayspeed = int(pausedata['result']["speed"])
         if True == raydebug:
             print response.text
-        pauseload = { "id":1, "jsonrpc":"2.0", "method":"Player.Seek", "params": { "playerid":player_id, "value":0 }}
-        response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
-        if True == raydebug:
-            print response.text
                 
 def myspeedfun():
     global rayspeed
@@ -74,6 +70,10 @@ def myspeedfun():
         response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
         pausedata = json.loads(response.text)
         rayspeed = int(pausedata['result']["speed"])
+        if True == raydebug:
+            print response.text
+        pauseload = { "id":1, "jsonrpc":"2.0", "method":"Player.Seek", "params": { "playerid":player_id, "value":0 }}
+        response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
         if True == raydebug:
             print response.text
             
