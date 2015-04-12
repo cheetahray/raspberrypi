@@ -78,9 +78,8 @@ def myspeedfun():
             print response.text
             
 def myfunc():
-    global player_id
+    global player_id, rayspeed
     global gettingclose
-    global rayspeed
     global iam, iwant
     global raydebug
     while True:
