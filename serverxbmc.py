@@ -73,7 +73,6 @@ def myspeedfun():
     global raydebug
     global ishould
     global raytuple
-    sent = sock.sendto(ishould, raytuple)
     global player_id
     if player_id > 0 and 0 == rayspeed:
         pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":True},"id":1}
@@ -82,6 +81,7 @@ def myspeedfun():
         rayspeed = int(pausedata['result']["speed"])
         if True == raydebug:
             print response.text
+        sent = sock.sendto(ishould, raytuple)
 
 def myfunc():
     global player_id, rayspeed, cntnow
