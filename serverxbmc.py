@@ -57,14 +57,14 @@ def mystopfun():
     global raydebug
     global player_id
     if player_id > 0 and 1 == rayspeed:
-        pauseload = { "id":1, "jsonrpc":"2.0", "method":"Player.Seek", "params": { "playerid":player_id, "value":0 }}
-        response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
-        if True == raydebug:
-            print response.text
         pauseload = {"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":player_id,"play":False},"id":1}
         response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
         pausedata = json.loads(response.text)
         rayspeed = int(pausedata['result']["speed"])
+        if True == raydebug:
+            print response.text
+        pauseload = { "id":1, "jsonrpc":"2.0", "method":"Player.Seek", "params": { "playerid":player_id, "value":0 }}
+        response = requests.post(xbmc_json_rpc_url, json.dumps(pauseload), headers=headers)
         if True == raydebug:
             print response.text
         
