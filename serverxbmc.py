@@ -5,6 +5,7 @@ from socket import *
 import sys
 from threading import Thread
 import time
+import base64
 
 #time.sleep(15)
 
@@ -19,7 +20,8 @@ raytuple = ("192.168.11.255",PORT)
 
 #Required header for XBMC JSON-RPC calls, otherwise you'll get a
 #415 HTTP response code - Unsupported media type
-headers = {'content-type': 'application/json'}
+base64string = base64.encodestring('%s:%s' % ('ray', 'pearl')).replace('\n', '')
+headers = {'content-type': 'application/json','Authorization':"Basic %s" % base64string}
 
 #Host name where XBMC is running, leave as localhost if on this PC
 #Make sure "Allow control of XBMC via HTTP" is set to ON in Settings ->
