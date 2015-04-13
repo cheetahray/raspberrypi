@@ -152,8 +152,9 @@ try:
             if two!=twoshould:
                 two = data
                 cntnow += 1    
-                if cntnow == cntshould:
-                    myspeedfun()     
+        elif data == 'fa'
+            if cntnow == cntshould:
+                myspeedfun()     
         elif data == 'go':
             iam = '1'   
             if 0 == player_id:
