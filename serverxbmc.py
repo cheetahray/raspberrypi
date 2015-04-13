@@ -152,7 +152,7 @@ try:
             if two!=twoshould:
                 two = data
                 cntnow += 1    
-        elif data == 'fa'
+        elif data == 'fa':
             if cntnow == cntshould:
                 myspeedfun()     
         elif data == 'go':

@@ -146,7 +146,7 @@ try:
         
         if data == ishould:
             iwant = ishould
-        elif data == 'fa'    
+        elif data == 'fa':    
             myspeedfun()
         elif data == 'go':
             iam = '2'   
