@@ -47,9 +47,11 @@ raydata = json.dumps(payload)
 iam = ''
 ishould = 'pl'
 cntnow = 0
-cntshould = 1
+cntshould = 2
 two = ''
 twoshould = '2'
+three = ''
+threeshould = '3'
 gettingclose = False
 raydebug = True
 rayspeed = 1
@@ -156,6 +158,12 @@ try:
                 cntnow += 1    
             if cntnow == cntshould:
                 myspeedfun()     
+        elif data == threeshould:
+            if three!=threeshould:
+                three = data
+                cntnow += 1
+            if cntnow == cntshould:
+                myspeedfun()
         elif data == 'go':
             iam = '1'   
             if 0 == player_id:
