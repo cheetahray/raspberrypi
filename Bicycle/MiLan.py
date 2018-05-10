@@ -51,8 +51,8 @@ server.listen(1)  # max backlog of connections
 
 print 'Listening on {}:{}'.format(bind_ip, bind_port)
 
-def renewQR(url):
-    url = pyqrcode.create('http://uca.edu')
+def renewQR(source):
+    url = pyqrcode.create(source)
     #print(url.terminal())
     #url.svg(sys.stdout, scale=1)
     IMAGE = 'big-number.png'
