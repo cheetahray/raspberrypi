@@ -2,15 +2,23 @@ import socket
 import threading
 import pyqrcode
 import sys
-import wand
-from wand.image import Image
-from wand.display import display
+#import wand
+#from wand.image import Image
+#from wand.display import display
 import RPi.GPIO as GPIO  
 import time
 from neopixel import *
 #import argparse
 import thread
 import datetime
+import epd2in7b
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw
+#import imagedata
+
+COLORED = 1
+UNCOLORED = 0
 
 # LED strip configuration:
 LED_COUNT      = 16      # Number of LED pixels.
@@ -48,9 +56,13 @@ def renewQR(url):
     #print(url.terminal())
     #url.svg(sys.stdout, scale=1)
     IMAGE = 'big-number.png'
-    url.png(IMAGE,scale=6)
-    with Image(filename=IMAGE) as img:
-        display(img)
+    url.png(IMAGE,scale=1)
+    #with Image(filename=IMAGE) as img:
+        #display(img)
+    # display images
+    frame_black = epd.get_frame_buffer(IMAGE)
+    frame_red = epd.get_frame_buffer(IMAGE)
+    epd.display_frame(frame_black, frame_red)
 
 def handle_client_connection(client_socket):
     global circleCNT
@@ -168,6 +180,13 @@ GPIO.add_event_detect(23, GPIO.FALLING, callback=my_callback2, bouncetime=300)
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 # Intialize the library (must be called once before other functions).
 strip.begin()
+
+epd = epd2in7b.EPD()
+epd.init()
+
+# clear the frame buffer
+frame_black = [0] * (epd.width * epd.height / 8)
+frame_red = [0] * (epd.width * epd.height / 8)
 
 try:  
     while True:
