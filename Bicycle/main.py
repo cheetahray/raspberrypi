@@ -60,8 +60,7 @@ def main():
     # display images
     frame_black = epd.get_frame_buffer(Image.open('black.bmp'))
     frame_red = epd.get_frame_buffer(Image.open('red.bmp'))
-    frame_ray = epd.get_frame_buffer(Image.open('big-number.png'))
-    epd.display_frame(frame_black, frame_red, frame_ray)
+    epd.display_frame(frame_black, frame_red)
 
     # You can get frame buffer from an image or import the buffer directly:
     #epd.display_frame(imagedata.IMAGE_BLACK, imagedata.IMAGE_RED)

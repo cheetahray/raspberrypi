@@ -52,16 +52,17 @@ server.listen(1)  # max backlog of connections
 print 'Listening on {}:{}'.format(bind_ip, bind_port)
 
 def renewQR(source):
+    print source
     url = pyqrcode.create(source)
     #print(url.terminal())
     #url.svg(sys.stdout, scale=1)
     IMAGE = 'big-number.png'
-    url.png(IMAGE,scale=1)
+    url.png(IMAGE,scale=4)
     #with Image(filename=IMAGE) as img:
         #display(img)
     # display images
-    frame_black = epd.get_frame_buffer(IMAGE)
-    frame_red = epd.get_frame_buffer(IMAGE)
+    frame_black = epd.get_frame_buffer(Image.open(IMAGE))
+    frame_red = epd.get_frame_buffer(Image.open(IMAGE))
     epd.display_frame(frame_black, frame_red)
 
 def handle_client_connection(client_socket):
