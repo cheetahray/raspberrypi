@@ -69,15 +69,16 @@ def handle_client_connection(client_socket):
     request = client_socket.recv(1024)
     print 'Received {}'.format(request)
     try:
-        if request.index("Q:") == 0:
+        if request.startswith("Q:"):
             url = request[2:]
             renewQR(url)
             client_socket.send('num:Q')
-        elif request.index("C") == 0:
+        elif request.startswith("C"):
             client_socket.send('num:'+str(circleCNT))
-        elif request.index("Z") == 0:
+        elif request.startswith("Z"):
             client_socket.send('num:'+str(circleCNT))
             circleCNT = 0
+            colorWipe(strip, Color(0,0,0), 10)
     except ValueError, e:
         print e
         pass
