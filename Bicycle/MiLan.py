@@ -12,11 +12,9 @@ from neopixel import *
 import thread
 import datetime
 import epd2in7b
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
 #import imagedata
-
+from PIL import Image, ImageFont, ImageDraw  
+  
 COLORED = 1
 UNCOLORED = 0
 
@@ -51,6 +49,39 @@ server.listen(1)  # max backlog of connections
 
 print 'Listening on {}:{}'.format(bind_ip, bind_port)
 
+def processImage(path):  
+    
+    # size = 1920, 1080  
+    image1 = Image.new("RGB", (176, 264))  
+    image2 = Image.open(path)  
+  
+    #image2 = image2.resize((1920, 872), )  
+    # image.thumbnail(size)  
+      
+    #draw = ImageDraw.Draw(image1)  
+  
+    # use a truetype font  
+    #font = ImageFont.truetype("arial.ttf", 50)  
+  
+    #draw.text((100, 20), content, font = font)  
+    bw, bh = image1.size  
+    lw, lh = image2.size  
+  
+    image1.paste(image2, (bw - lw, (bh - lh)/2))  
+  
+    #path = os.path.split(path)  
+    # image3 = Image.composite(image1, image2, "L")  
+    #newpath = os.path.join(dir, "composite").replace('\\', '/')  
+      
+    #if not os.path.exists(newpath):  
+        #os.mkdir(newpath)  
+  
+    #_path = os.path.join(newpath, '%s%s'%(content, "_merge.jpg"))  
+    #image1.save(_path.replace('\\', '/'), "JPEG")  
+    image1.save(path, "PNG")  
+    
+    #print 'Process image %s'%content  
+
 def renewQR(source):
     print source
     url = pyqrcode.create(source)
@@ -61,6 +92,7 @@ def renewQR(source):
     #with Image(filename=IMAGE) as img:
         #display(img)
     # display images
+    processImage(IMAGE)
     frame_black = epd.get_frame_buffer(Image.open(IMAGE))
     frame_red = epd.get_frame_buffer(Image.open(IMAGE))
     epd.display_frame(frame_black, frame_red)
