@@ -67,7 +67,7 @@ def processImage(path):
     bw, bh = image1.size  
     lw, lh = image2.size  
   
-    image1.paste(image2, (bw - lw, (bh - lh)/2))  
+    image1.paste(image2, ((bw - lw)/2, (bh - lh)/2))  
   
     #path = os.path.split(path)  
     # image3 = Image.composite(image1, image2, "L")  
@@ -87,14 +87,14 @@ def renewQR(source):
     url = pyqrcode.create(source)
     #print(url.terminal())
     #url.svg(sys.stdout, scale=1)
-    IMAGE = 'big-number.png'
+    IMAGE = 'black.png'
     url.png(IMAGE,scale=4)
     #with Image(filename=IMAGE) as img:
         #display(img)
     # display images
     processImage(IMAGE)
     frame_black = epd.get_frame_buffer(Image.open(IMAGE))
-    frame_red = epd.get_frame_buffer(Image.open(IMAGE))
+    frame_red = epd.get_frame_buffer(Image.open('red.png'))
     epd.display_frame(frame_black, frame_red)
 
 def handle_client_connection(client_socket):
@@ -203,7 +203,7 @@ def my_callback2(channel):
         aa = 2.56
     topos = int(aa * 100) 
     NOW = datetime.datetime.now()
-    thread.start_new_thread(redblue,(strip,3,1))
+    thread.start_new_thread(redblue,(strip,4,1))
 
 # when a falling edge is detected on port 23, regardless of whatever   
 # else is happening in the program, the function my_callback2 will be run  
