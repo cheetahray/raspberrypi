@@ -13,7 +13,7 @@ import thread
 import datetime
 import epd2in7b
 #import imagedata
-from PIL import Image, ImageFont, ImageDraw  
+from PIL import Image, ImageFont, ImageDraw, ImageOps  
   
 COLORED = 1
 UNCOLORED = 0
@@ -93,9 +93,12 @@ def renewQR(source):
         #display(img)
     # display images
     processImage(IMAGE)
-    frame_black = epd.get_frame_buffer(Image.open(IMAGE))
-    frame_red = epd.get_frame_buffer(Image.open('red.png'))
-    epd.display_frame(frame_black, frame_red)
+    image = Image.open(IMAGE)
+    frame_black = epd.get_frame_buffer(image)
+    #inverted_image = ImageOps.invert(image)
+    #inverted_image.save('new_name.png')  
+    #frame_red = epd.get_frame_buffer(inverted_image)
+    epd.display_frame(frame_black, frame_black)
 
 def handle_client_connection(client_socket):
     global circleCNT
