@@ -108,11 +108,11 @@ def handle_client_connection(client_socket):
         if request.startswith("Q:"):
             url = request[2:]
             renewQR(url)
-            client_socket.send('num:Q')
+            client_socket.send('num:Q\r\n')
         elif request.startswith("C"):
-            client_socket.send('num:'+str(circleCNT))
+            client_socket.send('num:'+str(circleCNT)+'\r\n')
         elif request.startswith("Z"):
-            client_socket.send('num:'+str(circleCNT))
+            client_socket.send('num:'+str(circleCNT)+'\r\n')
             circleCNT = 0
             colorWipe(strip, Color(0,0,0), 10)
     except ValueError, e:
