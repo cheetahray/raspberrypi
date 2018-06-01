@@ -31,7 +31,7 @@ LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 circleCNT = 0
 frompos = 0
 topos = 256
-NOW = 0
+NOW = datetime.datetime.now()
 
 GPIO.setmode(GPIO.BCM)  
 
