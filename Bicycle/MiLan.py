@@ -102,7 +102,7 @@ def renewQR(source):
 
 def handle_client_connection(client_socket):
     global circleCNT
-    request = client_socket.recv(1024)
+    request = client_socket.recv(32)
     print 'Received {}'.format(request)
     try:
         if request.startswith("Q:"):
@@ -242,15 +242,16 @@ try:
         rainbowCycle(strip)
         theaterChaseRainbow(strip)
         '''
-        NOW = datetime.datetime.now()
         client_sock, address = server.accept()
         print 'Accepted connection from {}:{}'.format(address[0], address[1])
+        handle_client_connection(client_sock)
+        '''
         client_handler = threading.Thread(
             target=handle_client_connection,
             args=(client_sock,)  # without comma you'd get a... TypeError: handle_client_connection() argument after * must be a sequence, not _socketobject
         )
         client_handler.start()
-    
+        '''
 except KeyboardInterrupt:  
     GPIO.cleanup()       # clean up GPIO on CTRL+C exit  
     colorWipe(strip, Color(0,0,0), 10)
