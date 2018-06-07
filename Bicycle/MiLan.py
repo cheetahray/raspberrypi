@@ -102,7 +102,7 @@ def renewQR(source):
 
 def handle_client_connection(client_socket):
     global circleCNT
-    request = client_socket.recv(32)
+    request = client_socket.recv(64)
     print 'Received {}'.format(request)
     try:
         if request.startswith("Q:"):
