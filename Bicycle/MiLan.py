@@ -88,7 +88,7 @@ def renewQR(source):
     #print(url.terminal())
     #url.svg(sys.stdout, scale=1)
     IMAGE = 'black.png'
-    url.png(IMAGE,scale=4)
+    url.png(IMAGE,scale=3)
     #with Image(filename=IMAGE) as img:
         #display(img)
     # display images
