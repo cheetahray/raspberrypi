@@ -202,7 +202,7 @@ def my_callback2(channel):
     global NOW
     print "Bicycle Circle", circleCNT
     circleCNT+=1
-    aa = (datetime.datetime.now() - NOW).total_seconds()*5
+    aa = (datetime.datetime.now() - NOW).total_seconds()*6
     if aa > 2.56:
         aa = 2.56
     topos = int(aa * 100) 
