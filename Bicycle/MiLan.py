@@ -27,7 +27,7 @@ LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
 LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
-
+sensorCNT = 0
 circleCNT = 0
 frompos = 0
 topos = 256
@@ -101,7 +101,7 @@ def renewQR(source):
     epd.display_frame(frame_black, frame_black)
 
 def handle_client_connection(client_socket):
-    global circleCNT
+    global circleCNT,sensorCNT
     request = client_socket.recv(64)
     print 'Received {}'.format(request)
     try:
@@ -115,6 +115,7 @@ def handle_client_connection(client_socket):
         elif request.startswith("Z"):
             client_socket.send('num:'+str(circleCNT)+'\r\n')
             circleCNT = 0
+            sensorCNT = 0
             colorWipe(strip, Color(0,0,0), 10)
     except ValueError, e:
         print e
@@ -196,13 +197,27 @@ def theaterChaseRainbow(strip, wait_ms=50):
             for i in range(0, strip.numPixels(), 3):
                 strip.setPixelColor(i+q, 0)
 
+HIGHLOW = 0
+def my_callback(channel):
+    global HIGHLOW
+    if GPIO.input(23):     # if port 25 == 1
+        if HIGHLOW == 0:
+            HIGHLOW = 1
+        print "Rising"
+    else:                  # if port 25 != 1
+        if HIGHLOW == 1:
+            HIGHLOW = 0
+            my_callback2(channel)            
+        print "Falling"
+
 def my_callback2(channel):
-    global circleCNT
+    global circleCNT,sensorCNT
     global frompos,topos
     global NOW
     print "Bicycle Circle", circleCNT
-    circleCNT+=1
-    aa = (datetime.datetime.now() - NOW).total_seconds()*5
+    sensorCNT+=1
+    circleCNT=sensorCNT/5
+    aa = (datetime.datetime.now() - NOW).total_seconds()*10
     if aa > 2.56:
         aa = 2.56
     topos = int(aa * 100) 
@@ -212,7 +227,7 @@ def my_callback2(channel):
 # when a falling edge is detected on port 23, regardless of whatever   
 # else is happening in the program, the function my_callback2 will be run  
 # 'bouncetime=300' includes the bounce control written into interrupts2a.py  
-GPIO.add_event_detect(23, GPIO.FALLING, callback=my_callback2, bouncetime=300)  
+GPIO.add_event_detect(23, GPIO.BOTH, callback=my_callback)#2, bouncetime=300)  
   
 # Create NeoPixel object with appropriate configuration.
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
@@ -255,4 +270,5 @@ try:
 except KeyboardInterrupt:  
     GPIO.cleanup()       # clean up GPIO on CTRL+C exit  
     colorWipe(strip, Color(0,0,0), 10)
+
 
