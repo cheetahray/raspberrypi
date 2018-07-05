@@ -224,6 +224,12 @@ def my_callback2(channel):
     NOW = datetime.datetime.now()
     thread.start_new_thread(redblue,(strip,4,1))
 
+def calrisesettime():
+    global NOW
+    ro = SunriseSunset(NOW, latitude=121.535844, longitude=25.033303, localOffset=8)
+    rise_time, set_time = ro.calculate()
+    return rise_time, set_time
+    
 # when a falling edge is detected on port 23, regardless of whatever   
 # else is happening in the program, the function my_callback2 will be run  
 # 'bouncetime=300' includes the bounce control written into interrupts2a.py  
@@ -257,9 +263,10 @@ try:
         rainbowCycle(strip)
         theaterChaseRainbow(strip)
         '''
+        print calrisesettime()
         client_sock, address = server.accept()
         print 'Accepted connection from {}:{}'.format(address[0], address[1])
-        handle_client_connection(client_sock)
+        handle_client_connection(client_sock)            
         '''
         client_handler = threading.Thread(
             target=handle_client_connection,
