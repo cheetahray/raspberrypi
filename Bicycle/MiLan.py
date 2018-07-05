@@ -14,7 +14,7 @@ import datetime
 import epd2in7b
 #import imagedata
 from PIL import Image, ImageFont, ImageDraw, ImageOps  
-  
+from sunrise_sunset import SunriseSunset  
 COLORED = 1
 UNCOLORED = 0
 
@@ -226,7 +226,7 @@ def my_callback2(channel):
 
 def calrisesettime():
     global NOW
-    ro = SunriseSunset(NOW, latitude=121.535844, longitude=25.033303, localOffset=8)
+    ro = SunriseSunset(NOW, longitude=121.535844, latitude=25.033303, localOffset=8)
     rise_time, set_time = ro.calculate()
     return rise_time, set_time
     
