@@ -30,6 +30,7 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 sensorCNT = 0
 circleCNT = 0
+LastcircleCNT = 0
 frompos = 0
 topos = 256
 NOW = datetime.datetime.now()
@@ -104,7 +105,7 @@ def renewQR(source):
     epd.display_frame(frame_black, frame_black)
 
 def handle_client_connection(client_socket):
-    global circleCNT,sensorCNT
+    global circleCNT,sensorCNT, LastcircleCNT
     request = client_socket.recv(64)
     print 'Received {}'.format(request)
     try:
@@ -118,6 +119,7 @@ def handle_client_connection(client_socket):
         elif request.startswith("Z"):
             client_socket.send('num:'+str(circleCNT)+'\r\n')
             circleCNT = 0
+            LastcircleCNT = 0
             sensorCNT = 0
             colorWipe(strip, Color(0,0,0), 10)
     except ValueError, e:
@@ -220,17 +222,19 @@ def my_callback2(channel):
     print "Bicycle Circle", circleCNT
     sensorCNT+=1
     circleCNT=sensorCNT/5
-    aa = (datetime.datetime.now() - NOW).total_seconds()*10
-    if aa > 2.56:
-        aa = 2.56
-    topos = int(aa * 100) 
-    NOW = datetime.datetime.now()
-    print rise_time, set_time
-    if NOW > rise_time and NOW < set_time:
-        strip.setbrightness(255)
-    else:
-        strip.setbrightness(200)
-    thread.start_new_thread(redblue,(strip,4,1))
+    if circleCNT != LastcircleCNT:
+        LastcircleCNT = circleCNT
+        aa = (datetime.datetime.now() - NOW).total_seconds()*10
+        if aa > 2.56:
+            aa = 2.56
+        topos = int(aa * 100) 
+        NOW = datetime.datetime.now()
+        print rise_time, set_time
+        if NOW > rise_time and NOW < set_time:
+            strip.setbrightness(255)
+        else:
+            strip.setbrightness(200)
+        thread.start_new_thread(redblue,(strip,4,1))
 
 def calrisesettime():
     global NOW, rise_time, set_time
