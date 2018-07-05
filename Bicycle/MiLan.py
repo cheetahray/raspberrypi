@@ -32,7 +32,7 @@ circleCNT = 0
 frompos = 0
 topos = 256
 NOW = datetime.datetime.now()
-
+StartTime = None
 GPIO.setmode(GPIO.BCM)  
 
 # GPIO 23 & 17 set up as inputs, pulled up to avoid false detection.  
@@ -263,7 +263,9 @@ try:
         rainbowCycle(strip)
         theaterChaseRainbow(strip)
         '''
-        print calrisesettime()
+        if StartTime == None or StartTime.day != NOW.day:
+            StartTime = datetime.datetime.now()
+            print calrisesettime()
         client_sock, address = server.accept()
         print 'Accepted connection from {}:{}'.format(address[0], address[1])
         handle_client_connection(client_sock)            
