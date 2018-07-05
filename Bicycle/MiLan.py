@@ -15,6 +15,7 @@ import epd2in7b
 #import imagedata
 from PIL import Image, ImageFont, ImageDraw, ImageOps  
 from sunrise_sunset import SunriseSunset  
+from datetime import timedelta
 COLORED = 1
 UNCOLORED = 0
 
@@ -32,7 +33,9 @@ circleCNT = 0
 frompos = 0
 topos = 256
 NOW = datetime.datetime.now()
-StartTime = None
+rise_time = None
+set_time = None
+StartTime = NOW + timedelta(days=-1)
 GPIO.setmode(GPIO.BCM)  
 
 # GPIO 23 & 17 set up as inputs, pulled up to avoid false detection.  
@@ -225,11 +228,10 @@ def my_callback2(channel):
     thread.start_new_thread(redblue,(strip,4,1))
 
 def calrisesettime():
-    global NOW
+    global NOW, rise_time, set_time
     ro = SunriseSunset(NOW, longitude=121.535844, latitude=25.033303, localOffset=8)
     rise_time, set_time = ro.calculate()
-    return rise_time, set_time
-    
+    print rise_time, set_time
 # when a falling edge is detected on port 23, regardless of whatever   
 # else is happening in the program, the function my_callback2 will be run  
 # 'bouncetime=300' includes the bounce control written into interrupts2a.py  
@@ -263,9 +265,9 @@ try:
         rainbowCycle(strip)
         theaterChaseRainbow(strip)
         '''
-        if StartTime == None or StartTime.day != NOW.day:
+        if StartTime.day != NOW.day:
             StartTime = datetime.datetime.now()
-            print calrisesettime()
+            calrisesettime()
         client_sock, address = server.accept()
         print 'Accepted connection from {}:{}'.format(address[0], address[1])
         handle_client_connection(client_sock)            
