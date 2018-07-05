@@ -216,7 +216,7 @@ def my_callback(channel):
 def my_callback2(channel):
     global circleCNT,sensorCNT
     global frompos,topos
-    global NOW
+    global NOW, rise_time, set_time
     print "Bicycle Circle", circleCNT
     sensorCNT+=1
     circleCNT=sensorCNT/5
@@ -225,13 +225,18 @@ def my_callback2(channel):
         aa = 2.56
     topos = int(aa * 100) 
     NOW = datetime.datetime.now()
+    print rise_time, set_time
+    if NOW > rise_time and NOW < set_time:
+        strip.setbrightness(255)
+    else:
+        strip.setbrightness(200)
     thread.start_new_thread(redblue,(strip,4,1))
 
 def calrisesettime():
     global NOW, rise_time, set_time
     ro = SunriseSunset(NOW, longitude=121.535844, latitude=25.033303, localOffset=8)
     rise_time, set_time = ro.calculate()
-    print rise_time, set_time
+
 # when a falling edge is detected on port 23, regardless of whatever   
 # else is happening in the program, the function my_callback2 will be run  
 # 'bouncetime=300' includes the bounce control written into interrupts2a.py  
