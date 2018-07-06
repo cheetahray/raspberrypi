@@ -25,7 +25,7 @@ LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 #LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 77     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 sensorCNT = 0
@@ -229,11 +229,13 @@ def my_callback2(channel):
             aa = 2.56
         topos = int(aa * 100) 
         NOW = datetime.datetime.now()
+        '''
         print rise_time, set_time
         if NOW > rise_time and NOW < set_time:
             strip.setbrightness(255)
         else:
             strip.setbrightness(200)
+        '''
         thread.start_new_thread(redblue,(strip,4,1))
 
 def calrisesettime():
