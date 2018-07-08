@@ -216,7 +216,7 @@ def my_callback(channel):
         print "Falling"
 
 def my_callback2(channel):
-    global circleCNT,sensorCNT
+    global circleCNT,sensorCNT,LastcircleCNT
     global frompos,topos
     global NOW, rise_time, set_time
     print "Bicycle Circle", circleCNT
@@ -224,7 +224,7 @@ def my_callback2(channel):
     circleCNT=sensorCNT/5
     if circleCNT != LastcircleCNT:
         LastcircleCNT = circleCNT
-        aa = (datetime.datetime.now() - NOW).total_seconds()*10
+        aa = (datetime.datetime.now() - NOW).total_seconds() * 2.25
         if aa > 2.56:
             aa = 2.56
         topos = int(aa * 100) 
