@@ -83,7 +83,7 @@ LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 #LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 77     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 78     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 sensorCNT = 0
@@ -107,7 +107,7 @@ bind_port = 9999
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((bind_ip, bind_port))
-server.listen(1)  # max backlog of connections
+server.listen(2)  # max backlog of connections
 
 print 'Listening on {}:{}'.format(bind_ip, bind_port)
 
@@ -180,18 +180,29 @@ def handle_client_connection(client_socket):
             LastcircleCNT = 0
             sensorCNT = 0
             colorWipe(strip, Color(0,0,0), 10)
+        elif request.startswith("J"):
+            for ii in range(0, LED_BRIGHTNESS, 3):
+                colorWipe(strip, Color(0,127,127), 0, ii) 
+                time.sleep(0.001)
+            for ii in range(LED_BRIGHTNESS, -1, -3):
+                colorWipe(strip, Color(0,127,127), 0, ii)
+                time.sleep(0.001)
+            client_socket.send('num:J\r\n')
     except ValueError, e:
         print e
         pass
     #client_socket.close()
 
 # Define functions which animate LEDs in various ways.
-def colorWipe(strip, color, wait_ms=50):
+def colorWipe(strip, color, wait_ms=50, brightness=256):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, color)
+        if brightness < 256:
+            strip.setBrightness(brightness)
         strip.show()
-        time.sleep(wait_ms/1000.0)
+        if wait_ms != 0:
+            time.sleep(wait_ms/1000.0)
 
 def theaterChase(strip, color, wait_ms=50, iterations=10):
     """Movie theater light style chaser animation."""
