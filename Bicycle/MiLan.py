@@ -16,8 +16,66 @@ import epd2in7b
 from PIL import Image, ImageFont, ImageDraw, ImageOps  
 from sunrise_sunset import SunriseSunset  
 from datetime import timedelta
+from threading import Thread, Event, Timer
 COLORED = 1
 UNCOLORED = 0
+
+def TimerReset(*args, **kwargs):
+    """ Global function for Timer """
+    return _TimerReset(*args, **kwargs)
+
+
+class _TimerReset(Thread):
+    """Call a function after a specified number of seconds:
+
+    t = TimerReset(30.0, f, args=[], kwargs={})
+    t.start()
+    t.cancel() # stop the timer's action if it's still waiting
+    """
+
+    def __init__(self, interval, function, args=[], kwargs={}):
+        Thread.__init__(self)
+        self.interval = interval
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
+        self.finished = Event()
+        self.resetted = True
+        self.debug = False
+    def cancel(self):
+        """Stop the timer if it hasn't finished yet"""
+        self.finished.set()
+
+    def run(self):
+        if self.debug:
+            print "Time: %s - timer running..." % time.asctime()
+
+        while self.resetted:
+            if self.debug:
+                print "Time: %s - timer waiting for timeout in %.2f..." % (time.asctime(), self.interval)
+            self.resetted = False
+            self.finished.wait(self.interval)
+
+        if not self.finished.isSet():
+            self.function(*self.args, **self.kwargs)
+        self.finished.set()
+        if self.debug:
+            print "Time: %s - timer finished!" % time.asctime()
+
+    def reset(self, interval=None):
+        """ Reset the timer """
+
+        if interval:
+            if self.debug:
+                print "Time: %s - timer resetting to %.2f..." % (time.asctime(), interval)
+            self.interval = interval
+        else:
+            if self.debug:
+                print "Time: %s - timer resetting..." % time.asctime()
+
+        self.resetted = True
+        self.finished.set()
+        self.finished.clear()
 
 # LED strip configuration:
 LED_COUNT      = 23      # Number of LED pixels.
@@ -202,6 +260,9 @@ def theaterChaseRainbow(strip, wait_ms=50):
             for i in range(0, strip.numPixels(), 3):
                 strip.setPixelColor(i+q, 0)
 
+def tensec(idx,idx2):
+    renewQR(idx)
+
 HIGHLOW = 0
 def my_callback(channel):
     global HIGHLOW
@@ -259,8 +320,9 @@ epd.init()
 # clear the frame buffer
 frame_black = [0] * (epd.width * epd.height / 8)
 frame_red = [0] * (epd.width * epd.height / 8)
-
+TT = TimerReset(30, tensec, ("https://ecogym.taipei/app.html#/device-error","https://ecogym.taipei/app.html#/device-error"))
 try:  
+    TT.start()
     while True:
         '''
         print ('Color wipe animations.')
@@ -280,6 +342,7 @@ try:
             StartTime = datetime.datetime.now()
             calrisesettime()
         client_sock, address = server.accept()
+        TT.reset()
         print 'Accepted connection from {}:{}'.format(address[0], address[1])
         handle_client_connection(client_sock)            
         '''
@@ -292,5 +355,6 @@ try:
 except KeyboardInterrupt:  
     GPIO.cleanup()       # clean up GPIO on CTRL+C exit  
     colorWipe(strip, Color(0,0,0), 10)
+    TT.cancel()
 
 
