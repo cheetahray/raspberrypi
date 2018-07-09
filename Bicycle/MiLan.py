@@ -280,10 +280,12 @@ def my_callback2(channel):
     global circleCNT,sensorCNT,LastcircleCNT
     global frompos,topos
     global NOW, rise_time, set_time
+    global UU
     print "Bicycle Circle", circleCNT
     sensorCNT+=1
     circleCNT=sensorCNT/5
     if circleCNT != LastcircleCNT:
+        UU.reset()
         LastcircleCNT = circleCNT
         aa = (datetime.datetime.now() - NOW).total_seconds() * 2.25
         if aa > 2.56:
@@ -321,6 +323,7 @@ epd.init()
 frame_black = [0] * (epd.width * epd.height / 8)
 frame_red = [0] * (epd.width * epd.height / 8)
 TT = TimerReset(30, tensec, ("https://ecogym.taipei/app.html#/device-error","https://ecogym.taipei/app.html#/device-error"))
+UU = TimerReset(20, colorWipe, (strip, Color(0, 0, 0),10) )
 try:  
     TT.start()
     while True:
@@ -356,5 +359,4 @@ except KeyboardInterrupt:
     GPIO.cleanup()       # clean up GPIO on CTRL+C exit  
     colorWipe(strip, Color(0,0,0), 10)
     TT.cancel()
-
-
+    UU.cancel()
