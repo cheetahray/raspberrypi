@@ -77,9 +77,6 @@ class _TimerReset(Thread):
         self.finished.set()
         self.finished.clear()
 
-def tensec(idx,idx2):
-    renewQR(idx)
-
 # LED strip configuration:
 LED_COUNT      = 23      # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
@@ -99,8 +96,7 @@ rise_time = None
 set_time = None
 StartTime = NOW + timedelta(days=-1)
 GPIO.setmode(GPIO.BCM)  
-TT = TimerReset(30, tensec, ("https://ecogym.taipei/app.html#/device-error","https://ecogym.taipei/app.html#/device-error"))
-UU = TimerReset(20, colorWipe, (strip, Color(0, 0, 0),10) )
+
 # GPIO 23 & 17 set up as inputs, pulled up to avoid false detection.  
 # Both ports are wired to connect to GND on button press.  
 # So we'll be setting up falling edge detection for both  
@@ -275,6 +271,9 @@ def theaterChaseRainbow(strip, wait_ms=50):
             for i in range(0, strip.numPixels(), 3):
                 strip.setPixelColor(i+q, 0)
 
+def tensec(idx,idx2):
+    renewQR(idx)
+
 HIGHLOW = 0
 def my_callback(channel):
     global HIGHLOW
@@ -318,11 +317,6 @@ def calrisesettime():
     ro = SunriseSunset(NOW, longitude=121.535844, latitude=25.033303, localOffset=8)
     rise_time, set_time = ro.calculate()
 
-# when a falling edge is detected on port 23, regardless of whatever   
-# else is happening in the program, the function my_callback2 will be run  
-# 'bouncetime=300' includes the bounce control written into interrupts2a.py  
-GPIO.add_event_detect(23, GPIO.BOTH, callback=my_callback)#2, bouncetime=300)  
-  
 # Create NeoPixel object with appropriate configuration.
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 # Intialize the library (must be called once before other functions).
@@ -334,7 +328,14 @@ epd.init()
 # clear the frame buffer
 frame_black = [0] * (epd.width * epd.height / 8)
 frame_red = [0] * (epd.width * epd.height / 8)
+TT = TimerReset(30, tensec, ("https://ecogym.taipei/app.html#/device-error","https://ecogym.taipei/app.html#/device-error"))
+UU = TimerReset(20, colorWipe, (strip, Color(0, 0, 0),10) )
 
+# when a falling edge is detected on port 23, regardless of whatever   
+# else is happening in the program, the function my_callback2 will be run  
+# 'bouncetime=300' includes the bounce control written into interrupts2a.py  
+GPIO.add_event_detect(23, GPIO.BOTH, callback=my_callback)#2, bouncetime=300)  
+  
 try:  
     TT.start()
     while True:
