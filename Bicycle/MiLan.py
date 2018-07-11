@@ -77,6 +77,9 @@ class _TimerReset(Thread):
         self.finished.set()
         self.finished.clear()
 
+def tensec(idx,idx2):
+    renewQR(idx)
+
 # LED strip configuration:
 LED_COUNT      = 23      # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
@@ -271,9 +274,6 @@ def theaterChaseRainbow(strip, wait_ms=50):
             time.sleep(wait_ms/1000.0)
             for i in range(0, strip.numPixels(), 3):
                 strip.setPixelColor(i+q, 0)
-
-def tensec(idx,idx2):
-    renewQR(idx)
 
 HIGHLOW = 0
 def my_callback(channel):
