@@ -96,7 +96,8 @@ rise_time = None
 set_time = None
 StartTime = NOW + timedelta(days=-1)
 GPIO.setmode(GPIO.BCM)  
-
+TT = TimerReset(30, tensec, ("https://ecogym.taipei/app.html#/device-error","https://ecogym.taipei/app.html#/device-error"))
+UU = TimerReset(20, colorWipe, (strip, Color(0, 0, 0),10) )
 # GPIO 23 & 17 set up as inputs, pulled up to avoid false detection.  
 # Both ports are wired to connect to GND on button press.  
 # So we'll be setting up falling edge detection for both  
@@ -333,8 +334,7 @@ epd.init()
 # clear the frame buffer
 frame_black = [0] * (epd.width * epd.height / 8)
 frame_red = [0] * (epd.width * epd.height / 8)
-TT = TimerReset(30, tensec, ("https://ecogym.taipei/app.html#/device-error","https://ecogym.taipei/app.html#/device-error"))
-UU = TimerReset(20, colorWipe, (strip, Color(0, 0, 0),10) )
+
 try:  
     TT.start()
     while True:
