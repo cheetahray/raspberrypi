@@ -17,6 +17,8 @@ from PIL import Image, ImageFont, ImageDraw, ImageOps
 from sunrise_sunset import SunriseSunset  
 from datetime import timedelta
 from threading import Thread, Event, Timer
+import commands 
+
 COLORED = 1
 UNCOLORED = 0
 
@@ -112,7 +114,7 @@ server.listen(2)  # max backlog of connections
 print 'Listening on {}:{}'.format(bind_ip, bind_port)
 
 def processImage(path):  
-    
+    global whoami
     # size = 1920, 1080  
     image1 = Image.new("RGB", (176, 264))  
     image2 = Image.open(path)  
@@ -120,12 +122,13 @@ def processImage(path):
     #image2 = image2.resize((1920, 872), )  
     # image.thumbnail(size)  
       
-    #draw = ImageDraw.Draw(image1)  
-  
+    draw = ImageDraw.Draw(image1)  
+    #draw.rectangle([(0,0),(176,50)], fill = (255,255,255)) 
     # use a truetype font  
-    #font = ImageFont.truetype("arial.ttf", 50)  
+    font = ImageFont.truetype("Arial.ttf", 50)  
   
-    #draw.text((100, 20), content, font = font)  
+    draw.text((60, 10), whoami, font = font)  
+    draw.text((60, 200), whoami, font = font)
     bw, bh = image1.size  
     lw, lh = image2.size  
   
@@ -137,7 +140,7 @@ def processImage(path):
       
     #if not os.path.exists(newpath):  
         #os.mkdir(newpath)  
-  
+    image1 = image1.transpose( Image.ROTATE_180 )
     #_path = os.path.join(newpath, '%s%s'%(content, "_merge.jpg"))  
     #image1.save(_path.replace('\\', '/'), "JPEG")  
     image1.save(path, "PNG")  
@@ -335,6 +338,11 @@ UU = TimerReset(20, colorWipe, (strip, Color(0, 0, 0),10) )
 # else is happening in the program, the function my_callback2 will be run  
 # 'bouncetime=300' includes the bounce control written into interrupts2a.py  
 GPIO.add_event_detect(23, GPIO.BOTH, callback=my_callback)#2, bouncetime=300)  
+
+ips = commands.getoutput("/sbin/ifconfig | grep -iA2 \"eth0\" | grep -i \"inet\" | grep -iv \"inet6\" | " +
+                         "awk {'print $2'} ") #| sed -ne 's/addr\://p'")
+iplist = ips.split(".")
+whoami = iplist[3]
   
 try:  
     TT.start()
