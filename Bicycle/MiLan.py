@@ -194,7 +194,7 @@ def handle_client_connection(client_socket):
     except ValueError, e:
         print e
         pass
-    request.close()
+    client_socket.close()
 
 # Define functions which animate LEDs in various ways.
 def colorWipe(strip, color, wait_ms=50, brightness=256):
