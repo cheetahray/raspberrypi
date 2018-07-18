@@ -116,7 +116,7 @@ print 'Listening on {}:{}'.format(bind_ip, bind_port)
 def processImage(path):  
     global whoami
     # size = 1920, 1080  
-    image1 = Image.new("RGB", (176, 264))  
+    image1 = Image.open("QR_0718.png") #.new("RGB", (176, 264))  
     image2 = Image.open(path)  
   
     #image2 = image2.resize((1920, 872), )  
@@ -125,14 +125,14 @@ def processImage(path):
     draw = ImageDraw.Draw(image1)  
     #draw.rectangle([(0,0),(176,50)], fill = (255,255,255)) 
     # use a truetype font  
-    font = ImageFont.truetype("Arial.ttf", 50)  
+    font = ImageFont.truetype("Arial.ttf", 35)  
   
-    draw.text((60, 10), whoami, font = font)  
-    draw.text((60, 200), whoami, font = font)
+    #draw.text((60, 10), whoami, font = font)  
+    draw.text((30, 10), whoami, font = font)
     bw, bh = image1.size  
     lw, lh = image2.size  
   
-    image1.paste(image2, ((bw - lw)/2, (bh - lh)/2))  
+    image1.paste(image2, ((bw - lw)/2, 120))#(bh - lh)/2))  
   
     #path = os.path.split(path)  
     # image3 = Image.composite(image1, image2, "L")  
@@ -163,7 +163,7 @@ def renewQR(source):
     #inverted_image = ImageOps.invert(image)
     #inverted_image.save('new_name.png')  
     #frame_red = epd.get_frame_buffer(inverted_image)
-    epd.display_frame(frame_black, frame_black)
+    epd.display_frame(frame_black)#, frame_black)
 
 def handle_client_connection(client_socket):
     global circleCNT,sensorCNT, LastcircleCNT
@@ -174,7 +174,7 @@ def handle_client_connection(client_socket):
             url = request[2:]
             renewQR(url)
             client_socket.send('num:Q\r\n')
-            renewQR(url)
+            #renewQR(url)
         elif request.startswith("C"):
             client_socket.send('num:'+str(circleCNT)+'\r\n')
         elif request.startswith("Z"):
