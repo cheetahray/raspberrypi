@@ -343,7 +343,8 @@ ips = commands.getoutput("/sbin/ifconfig | grep -iA2 \"eth0\" | grep -i \"inet\"
                          "awk {'print $2'} ") #| sed -ne 's/addr\://p'")
 iplist = ips.split(".")
 whoami = iplist[3]
-  
+if len(whoami) == 1:
+    whoami = "0" + whoami  
 try:  
     TT.start()
     while True:
