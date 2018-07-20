@@ -125,10 +125,10 @@ def processImage(path):
     draw = ImageDraw.Draw(image1)  
     #draw.rectangle([(0,0),(176,50)], fill = (255,255,255)) 
     # use a truetype font  
-    font = ImageFont.truetype("Arial.ttf", 35)  
+    font = ImageFont.truetype("Arial.ttf", 32)  
   
     #draw.text((60, 10), whoami, font = font)  
-    draw.text((30, 10), whoami, font = font)
+    draw.text((27, 13), whoami, font = font)
     bw, bh = image1.size  
     lw, lh = image2.size  
   
