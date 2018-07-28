@@ -116,7 +116,7 @@ print 'Listening on {}:{}'.format(bind_ip, bind_port)
 def processImage(path):  
     global whoami
     # size = 1920, 1080  
-    image1 = Image.open("QR_0718.png") #.new("RGB", (176, 264))  
+    image1 = Image.open("/home/pi/raspberrypi/Bicycle/QR_0718.png") #.new("RGB", (176, 264))  
     image2 = Image.open(path)  
   
     #image2 = image2.resize((1920, 872), )  
@@ -125,7 +125,7 @@ def processImage(path):
     draw = ImageDraw.Draw(image1)  
     #draw.rectangle([(0,0),(176,50)], fill = (255,255,255)) 
     # use a truetype font  
-    font = ImageFont.truetype("Arial.ttf", 32)  
+    font = ImageFont.truetype("/home/pi/raspberrypi/Bicycle/Arial.ttf", 32)  
   
     #draw.text((60, 10), whoami, font = font)  
     draw.text((27, 13), whoami, font = font)
