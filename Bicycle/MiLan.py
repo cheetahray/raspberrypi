@@ -152,7 +152,7 @@ def renewQR(source):
     url = pyqrcode.create(source)
     #print(url.terminal())
     #url.svg(sys.stdout, scale=1)
-    IMAGE = 'black.png'
+    IMAGE = '/home/pi/raspberrypi/Bicycle/black.png'
     url.png(IMAGE,scale=3)
     #with Image(filename=IMAGE) as img:
         #display(img)
