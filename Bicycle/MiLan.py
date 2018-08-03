@@ -172,9 +172,12 @@ def handle_client_connection(client_socket):
     try:
         if request.startswith("Q:"):
             url = request[2:]
-            renewQR(url)
-            client_socket.send('num:Q\r\n')
-            #renewQR(url)
+            if "ecogym.taipei" in url:
+                client_socket.send('num:E\r\n')
+            else:
+                renewQR(url)
+                client_socket.send('num:Q\r\n')
+                #renewQR(url)
         elif request.startswith("C"):
             client_socket.send('num:'+str(circleCNT)+'\r\n')
         elif request.startswith("Z"):
